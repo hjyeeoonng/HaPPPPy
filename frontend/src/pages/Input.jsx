@@ -45,7 +45,7 @@ const NextButton = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 30px;
   border-radius: 10px;
   background: #dddfe7;
   font-size: 18px;
@@ -55,7 +55,7 @@ const ButtonContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
-  margin-top: 10px;
+  margin-top: 20px;
 `;
 
 const HalfNextButton = styled.div`
