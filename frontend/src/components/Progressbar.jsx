@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const Root = styled.div`
@@ -39,47 +39,19 @@ const ProgressArrow = styled.div`
   color: #dddfe7;
 `;
 
-export const Progressbar = () => {
+export const Progressbar = ({ progressCount }) => {
   const [count, setCount] = useState(0);
 
-  const increaseCount = () => {
-    if (count === 2) {
-      setCount(0);
-    } else {
-      setCount((prev) => prev + 1);
-    }
-  };
-
-  const decreaseCount = () => {
-    if (count === 0) {
-      setCount(0);
-    } else {
-      setCount((prev) => prev - 1);
-    }
-  };
+  useEffect(() => {
+    setCount(progressCount);
+  }, [count]);
 
   return (
     <Root>
-      <ProgressArrow
-        onClick={() => {
-          decreaseCount();
-        }}
-      >
-        &#9664;
-      </ProgressArrow>
-
       <ProgressContainer>
         <ProgressText count={count}>{count} of 2</ProgressText>
         <Progress width={(count / 2) * 100 + "%"}></Progress>
       </ProgressContainer>
-
-      <ProgressArrow
-        onClick={() => {
-          increaseCount();
-        }}
-      >
-        &#9654;
-      </ProgressArrow>
     </Root>
   );
 };

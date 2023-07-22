@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import Main from "./pages/Main";
+import Input from "./pages/Input";
 
 const Root = styled.div`
   padding: 5px 5px;
@@ -21,7 +21,7 @@ function App() {
 
   return (
     <Root>
-      <Main></Main>
+      <Input></Input>
     </Root>
   );
 }
