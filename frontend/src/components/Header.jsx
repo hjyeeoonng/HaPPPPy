@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 const Root = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -8,35 +9,35 @@ const Root = styled.div`
 `;
 
 const StyledHeader = styled.div`
-  padding: 10px 5px;
+  padding: 3% 5%;
   font-size: 36px;
   font-weight: bold;
   font-style: italic;
   text-shadow: 2px 2px 2px gray;
 `;
 
-const StyledContainer = styled.div`
+const HeaderContainer = styled.div`
+  width: 100vw;
   display: flex;
-  width: 100%;
   justify-content: flex-end;
 `;
 
-const StyledSignIn = styled.div`
-  padding: 10px 5px 10px 15px;
+const HeaderSignIn = styled.div`
+  margin: 10px 10px;
 `;
 
-const StyledLogin = styled.div`
-  padding: 10px 5px;
+const HeaderLogin = styled.div`
+  margin: 10px 10px;
 `;
 
 export const Header = () => {
   return (
     <Root>
       <StyledHeader>platform</StyledHeader>
-      <StyledContainer>
-        <StyledSignIn>회원가입</StyledSignIn>
-        <StyledLogin>로그인</StyledLogin>
-      </StyledContainer>
+      <HeaderContainer>
+        <HeaderSignIn>회원가입</HeaderSignIn>
+        <HeaderLogin>로그인</HeaderLogin>
+      </HeaderContainer>
     </Root>
   );
 };
