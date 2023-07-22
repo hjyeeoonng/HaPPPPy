@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import Header from "./components/Header";
+import Main from "./pages/Main";
 
 const Root = styled.div`
   padding: 5px 5px;
 `;
+
 function App() {
   fetch("http://localhost:5000/")
     .then((res) => res.json())
@@ -20,7 +21,7 @@ function App() {
 
   return (
     <Root>
-      <Header></Header>
+      <Main></Main>
     </Root>
   );
 }
