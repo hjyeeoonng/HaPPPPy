@@ -1,10 +1,8 @@
 import styled from "styled-components";
 import Header from "../components/Header";
-import Progressbar from "../components/Progressbar";
 import Select from "../components/Select";
 import GoodsInput from "../components/GoodsInput";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 const Root = styled.div`
   width: 100%;
@@ -14,6 +12,34 @@ const Root = styled.div`
   justify-content: center;
   align-items: center;
   padding: 5px 5px;
+`;
+
+const JustSpan = styled.span``;
+
+const ProgressContainer = styled.div`
+  width: 70%;
+  height: 30px;
+  display: flex;
+  margin-top: 10px;
+  position: relative;
+  background-color: #ffffff;
+  border: 0.5px solid black;
+`;
+
+const Progress = styled.div`
+  width: ${(props) => props.width};
+  height: 100%;
+  background-color: #595d62;
+  transition: width 1s;
+`;
+
+const ProgressText = styled.div`
+  position: absolute;
+  top: 0;
+  width: 70%;
+  padding: 1px 8px 5px 5px;
+  color: ${(props) => (props.count === 0 ? "#595d62" : "#ffffff")};
+  font-weight: bold;
 `;
 
 const SelectContainer = styled.div`
@@ -81,19 +107,49 @@ const HalfBackButton = styled.div`
   font-weight: 700;
 `;
 
+const SuccessRoot = styled.div`
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const SuccessContainer = styled.div`
+  height: 75%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: Ubuntu;
+  font-size: 20px;
+  font-weight: 700;
+`;
+
+const SuccessButton = styled.div`
+  width: 292px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  bottom: 8%;
+  border-radius: 10px;
+  background: #dddfe7;
+  font-size: 18px;
+  font-weight: 700;
+`;
+
 export const Input = () => {
-  const [showFirst, setShowFirst] = useState(true);
   const [count, setCount] = useState(0);
-  const navigate = useNavigate();
 
   const increaseCount = () => {
     if (count === 2) {
       setCount(0);
     } else {
       setCount((prev) => prev + 1);
-      console.log(count);
     }
-    setShowFirst((prev) => !prev);
+    console.log(count);
   };
 
   const decreaseCount = () => {
@@ -102,13 +158,17 @@ export const Input = () => {
     } else {
       setCount((prev) => prev - 1);
     }
+    console.log(count);
   };
 
   return (
     <Root>
       <Header></Header>
-      <Progressbar progressCount={count}></Progressbar>
-      {showFirst && (
+      <ProgressContainer>
+        <ProgressText count={count}>{count} of 2</ProgressText>
+        <Progress width={(count / 2) * 100 + "%"}></Progress>
+      </ProgressContainer>
+      {count === 0 && (
         <SelectContainer>
           <Select
             question={"진행하려는 무역의 종류가 어떤 방식인가요?"}
@@ -121,12 +181,17 @@ export const Input = () => {
             option2={"항공"}
           ></Select>
 
-          <NextButton onClick={increaseCount}>다음 단계</NextButton>
+          <NextButton
+            onClick={() => {
+              increaseCount();
+            }}
+          >
+            다음 단계
+          </NextButton>
         </SelectContainer>
       )}
-
-      {!showFirst && (
-        <span>
+      {count === 1 && (
+        <JustSpan>
           <GoodsInfoContainer>
             <GoodsInfoHeader>물품 정보를 등록해주세요</GoodsInfoHeader>
             <GoodsInput title="물품명"></GoodsInput>
@@ -136,16 +201,29 @@ export const Input = () => {
             <GoodsInput title="물품 크기(가로,세로,높이"></GoodsInput>
           </GoodsInfoContainer>
           <ButtonContainer>
-            <HalfBackButton onClick={increaseCount}>이전 단계</HalfBackButton>
+            <HalfBackButton
+              onClick={() => {
+                decreaseCount();
+              }}
+            >
+              이전 단계
+            </HalfBackButton>
             <HalfNextButton
               onClick={() => {
-                navigate("/done");
+                increaseCount();
               }}
             >
               다음 단계
             </HalfNextButton>
           </ButtonContainer>
-        </span>
+        </JustSpan>
+      )}
+
+      {count === 2 && (
+        <SuccessRoot>
+          <SuccessContainer>물품 정보 등록 완료!</SuccessContainer>
+          <SuccessButton>업체별 견적 보러가기</SuccessButton>
+        </SuccessRoot>
       )}
     </Root>
   );
