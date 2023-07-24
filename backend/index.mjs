@@ -17,10 +17,10 @@ app.use(cors());
 
 //routing
 const pool = new pg.Pool({
-  host: process.env.DB_HOST, // 환경 변수에서 값 읽어옴
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
+  host: process.env.DB_HOST_2, // 환경 변수에서 값 읽어옴
+  user: process.env.DB_USER_2,
+  password: process.env.DB_PASSWORD_2,
+  database: process.env.DB_NAME_2,
 });
 
 // 첫 번째 페이지에서 입력받은 값(수입/수출, 항공/해상) 저장
@@ -79,6 +79,28 @@ app.delete('/delete', async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: '물품 데이터 삭제 실패' });
   }
+});
+
+//company업체 정보 테이블
+app.get("/company",async (req, res)=>{
+  // res.json({ "message": `company테이블` })
+  const client = await pool.connect()
+  console.log(req.query)
+  //첫번째 방법(for 문)
+  if (req.query.id) {
+      const result = await client.query("SELECT * FROM company_table")
+      for (let i = 0; i < result.rows.length; i++) {
+          if (result.rows[i].name == req.query.name) {
+              res.json(result.rows[i])
+              break;
+          }
+      }
+  } else {
+      const result = await client.query("SELECT * FROM company_table")
+      res.json(result.rows)
+  }
+
+
 });
 
 // server start
