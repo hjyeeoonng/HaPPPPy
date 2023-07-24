@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import Header from "../components/Header";
 import Select from "../components/Select";
-import GoodsInput from "../components/GoodsInput";
 import { useState } from "react";
+import axios from "axios";
 
 const Root = styled.div`
   width: 100%;
@@ -63,6 +63,20 @@ const GoodsInfoHeader = styled.div`
   font-family: Ubuntu;
   font-size: 20px;
   font-weight: 700;
+`;
+
+const GoodsInfo = styled.div`
+  margin: 9px 0px 5px 0px;
+  font-family: Ubuntu;
+  font-size: 15px;
+`;
+
+const GoodsInputData = styled.input`
+  width: 310px;
+  height: 37px;
+  border-radius: 10px;
+  border: 1px solid #000;
+  background: #f6f6f6;
 `;
 
 const NextButton = styled.div`
@@ -161,6 +175,34 @@ export const Input = () => {
     console.log(count);
   };
 
+  const [apiData, setApiData] = useState({
+    item_name: "",
+    hs_code: "",
+    total_price: "",
+    total_weight: "",
+    width: "",
+    height: "",
+    depth: "",
+  });
+
+  const addDatasInputPage2 = async () => {
+    try {
+      await axios.post("http://localhost:5000/inputPage2", apiData);
+      setApiData({
+        item_name: "",
+        hs_code: "",
+        total_price: "",
+        total_weight: "",
+        width: "",
+        height: "",
+        depth: "",
+      });
+    } catch (error) {
+      console.error(error);
+      console.log(apiData);
+      alert("정보 추가 실패!");
+    }
+  };
   return (
     <Root>
       <Header></Header>
@@ -194,11 +236,48 @@ export const Input = () => {
         <JustSpan>
           <GoodsInfoContainer>
             <GoodsInfoHeader>물품 정보를 등록해주세요</GoodsInfoHeader>
-            <GoodsInput title="물품명"></GoodsInput>
-            <GoodsInput title="HSCode"></GoodsInput>
-            <GoodsInput title="물품 총 가액"></GoodsInput>
-            <GoodsInput title="총중량"></GoodsInput>
-            <GoodsInput title="물품 크기(가로,세로,높이"></GoodsInput>
+            <GoodsInfo>물품명</GoodsInfo>
+            <GoodsInputData
+              onChange={(e) =>
+                setApiData({ ...apiData, item_name: e.target.value })
+              }
+            ></GoodsInputData>
+            <GoodsInfo>HSCode</GoodsInfo>
+            <GoodsInputData
+              onChange={(e) =>
+                setApiData({ ...apiData, hs_code: e.target.value })
+              }
+            ></GoodsInputData>
+            <GoodsInfo>물품 총 가액</GoodsInfo>
+            <GoodsInputData
+              onChange={(e) =>
+                setApiData({ ...apiData, total_price: e.target.value })
+              }
+            ></GoodsInputData>
+            <GoodsInfo>총중량</GoodsInfo>
+            <GoodsInputData
+              onChange={(e) =>
+                setApiData({ ...apiData, total_weight: e.target.value })
+              }
+            ></GoodsInputData>
+            <GoodsInfo>물품 가로 길이</GoodsInfo>
+            <GoodsInputData
+              onChange={(e) =>
+                setApiData({ ...apiData, width: e.target.value })
+              }
+            ></GoodsInputData>
+            <GoodsInfo>물품 세로 길이</GoodsInfo>
+            <GoodsInputData
+              onChange={(e) =>
+                setApiData({ ...apiData, height: e.target.value })
+              }
+            ></GoodsInputData>
+            <GoodsInfo>물품 높이</GoodsInfo>
+            <GoodsInputData
+              onChange={(e) =>
+                setApiData({ ...apiData, depth: e.target.value })
+              }
+            ></GoodsInputData>
           </GoodsInfoContainer>
           <ButtonContainer>
             <HalfBackButton
@@ -211,6 +290,7 @@ export const Input = () => {
             <HalfNextButton
               onClick={() => {
                 increaseCount();
+                addDatasInputPage2();
               }}
             >
               다음 단계
