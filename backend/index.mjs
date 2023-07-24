@@ -81,6 +81,28 @@ app.delete('/delete', async (req, res) => {
   }
 });
 
+//company업체 정보 테이블
+app.get("/company",async (req, res)=>{
+  // res.json({ "message": `company테이블` })
+  const client = await pool.connect()
+  console.log(req.query)
+  //첫번째 방법(for 문)
+  if (req.query.id) {
+      const result = await client.query("SELECT * FROM company_table")
+      for (let i = 0; i < result.rows.length; i++) {
+          if (result.rows[i].name == req.query.name) {
+              res.json(result.rows[i])
+              break;
+          }
+      }
+  } else {
+      const result = await client.query("SELECT * FROM company_table")
+      res.json(result.rows)
+  }
+
+
+});
+
 // server start
 app.listen(PORT, () => {
   console.log(`✅ Listening on http://localhost:5000/`);
