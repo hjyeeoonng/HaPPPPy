@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Header from "../components/Header";
 import Select from "../components/Select";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Root = styled.div`
@@ -157,6 +158,12 @@ const SuccessButton = styled.div`
 export const Input = () => {
   const [count, setCount] = useState(0);
 
+  const navigate = useNavigate();
+
+  const handleDisplayClick = () => {
+    navigate("/display");
+  };
+
   const increaseCount = () => {
     if (count === 2) {
       setCount(0);
@@ -203,6 +210,7 @@ export const Input = () => {
       alert("정보 추가 실패!");
     }
   };
+
   return (
     <Root>
       <Header></Header>
@@ -302,7 +310,7 @@ export const Input = () => {
       {count === 2 && (
         <SuccessRoot>
           <SuccessContainer>물품 정보 등록 완료!</SuccessContainer>
-          <SuccessButton>업체별 견적 보러가기</SuccessButton>
+          <SuccessButton onClick={handleDisplayClick}>업체별 견적 보러가기</SuccessButton>
         </SuccessRoot>
       )}
     </Root>
