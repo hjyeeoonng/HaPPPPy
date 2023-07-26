@@ -175,7 +175,12 @@ export const Input = () => {
     console.log(count);
   };
 
-  const [apiData, setApiData] = useState({
+  const [apiData1, setApiData1] = useState({
+    shipmentType: "",
+    transportType: "",
+  });
+
+  const [apiData2, setApiData2] = useState({
     item_name: "",
     hs_code: "",
     total_price: "",
@@ -185,10 +190,24 @@ export const Input = () => {
     depth: "",
   });
 
+  const nextData = () => {
+    setApiData1({
+      shipmentType: JSON.parse(localStorage.getItem("shipmentType")),
+      transportType: JSON.parse(localStorage.getItem("transportType")),
+    });
+  };
+
+  console.log(apiData1);
+
   const addDatasInputPage2 = async () => {
     try {
-      await axios.post("http://localhost:5000/inputPage2", apiData);
-      setApiData({
+      await axios.post("http://localhost:5000/inputPage1", apiData1);
+      await axios.post("http://localhost:5000/inputPage2", apiData2);
+      setApiData1({
+        shipmentType: "",
+        transportType: "",
+      });
+      setApiData2({
         item_name: "",
         hs_code: "",
         total_price: "",
@@ -199,7 +218,6 @@ export const Input = () => {
       });
     } catch (error) {
       console.error(error);
-      console.log(apiData);
       alert("정보 추가 실패!");
     }
   };
@@ -226,6 +244,7 @@ export const Input = () => {
           <NextButton
             onClick={() => {
               increaseCount();
+              nextData();
             }}
           >
             다음 단계
@@ -239,43 +258,43 @@ export const Input = () => {
             <GoodsInfo>물품명</GoodsInfo>
             <GoodsInputData
               onChange={(e) =>
-                setApiData({ ...apiData, item_name: e.target.value })
+                setApiData2({ ...apiData2, item_name: e.target.value })
               }
             ></GoodsInputData>
             <GoodsInfo>HSCode</GoodsInfo>
             <GoodsInputData
               onChange={(e) =>
-                setApiData({ ...apiData, hs_code: e.target.value })
+                setApiData2({ ...apiData2, hs_code: e.target.value })
               }
             ></GoodsInputData>
             <GoodsInfo>물품 총 가액</GoodsInfo>
             <GoodsInputData
               onChange={(e) =>
-                setApiData({ ...apiData, total_price: e.target.value })
+                setApiData2({ ...apiData2, total_price: e.target.value })
               }
             ></GoodsInputData>
             <GoodsInfo>총중량</GoodsInfo>
             <GoodsInputData
               onChange={(e) =>
-                setApiData({ ...apiData, total_weight: e.target.value })
+                setApiData2({ ...apiData2, total_weight: e.target.value })
               }
             ></GoodsInputData>
             <GoodsInfo>물품 가로 길이</GoodsInfo>
             <GoodsInputData
               onChange={(e) =>
-                setApiData({ ...apiData, width: e.target.value })
+                setApiData2({ ...apiData2, width: e.target.value })
               }
             ></GoodsInputData>
             <GoodsInfo>물품 세로 길이</GoodsInfo>
             <GoodsInputData
               onChange={(e) =>
-                setApiData({ ...apiData, height: e.target.value })
+                setApiData2({ ...apiData2, height: e.target.value })
               }
             ></GoodsInputData>
             <GoodsInfo>물품 높이</GoodsInfo>
             <GoodsInputData
               onChange={(e) =>
-                setApiData({ ...apiData, depth: e.target.value })
+                setApiData2({ ...apiData2, depth: e.target.value })
               }
             ></GoodsInputData>
           </GoodsInfoContainer>

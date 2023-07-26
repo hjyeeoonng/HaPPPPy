@@ -1,4 +1,3 @@
-import { useState } from "react";
 import styled from "styled-components";
 
 const Root = styled.div`
@@ -41,28 +40,40 @@ const SelectBox = styled.div`
 `;
 
 export const Select = ({ question, option1, option2 }) => {
-  const [apiData, setApiData] = useState({
-    shipmentType: "",
-    transportType: "",
-  });
-
-  const onClickButton = (e) => {
-    const input = e.target.innerText;
-    if (input === "해상" || input === "항공") {
-      setApiData(...apiData, { transportType: input });
-    } else {
-      setApiData(...apiData, { shipmentType: input });
-    }
-  };
-
   return (
     <Root>
       <SelectText>{question}</SelectText>
       <SelectBoxContainer>
-        <SelectBox color={1} onClick={onClickButton}>
+        <SelectBox
+          color={1}
+          onClick={(e) => {
+            e.target.innerText === "수출"
+              ? localStorage.setItem(
+                  "shipmentType",
+                  JSON.stringify(e.target.innerText)
+                )
+              : localStorage.setItem(
+                  "transportType",
+                  JSON.stringify(e.target.innerText)
+                );
+          }}
+        >
           {option1}
         </SelectBox>
-        <SelectBox color={2} onClick={onClickButton}>
+        <SelectBox
+          color={2}
+          onClick={(e) => {
+            e.target.innerText === "수입"
+              ? localStorage.setItem(
+                  "shipmentType",
+                  JSON.stringify(e.target.innerText)
+                )
+              : localStorage.setItem(
+                  "transportType",
+                  JSON.stringify(e.target.innerText)
+                );
+          }}
+        >
           {option2}
         </SelectBox>
       </SelectBoxContainer>
