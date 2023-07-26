@@ -17,15 +17,16 @@ app.use(cors());
 
 //routing
 const pool = new pg.Pool({
-  host: process.env.DB_HOST_2, // 환경 변수에서 값 읽어옴
-  user: process.env.DB_USER_2,
-  password: process.env.DB_PASSWORD_2,
-  database: process.env.DB_NAME_2,
+  host: process.env.DB_HOST, // 환경 변수에서 값 읽어옴
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
 });
 
 // 첫 번째 페이지에서 입력받은 값(수입/수출, 항공/해상) 저장
 let shipmentType = "";
 let transportType = "";
+
 
 app.post("/inputPage1", (req, res) => {
   shipmentType = req.body.shipmentType;
@@ -54,17 +55,74 @@ app.post("/inputPage2", async (req, res) => {
 // 세 번째 페이지에서 입력한 값을 보여주는 화면
 app.get("/displayData", async (req, res) => {
   const client = await pool.connect();
-
+  const id = req.query.id
   try {
-    const query = "SELECT * FROM products";
-    const result = await client.query(query);
+    let query;
+    let result;
+    if(req.query.id) {
+      query = `SELECT * FROM products where id=${id}`;
+    }
+    else {
+      query = `SELECT * FROM products`;
+    }
+    result = await client.query(query);
     res.json(result.rows);
+    // console.log(result.rows[0].total_weight*)
+
+    let estimate_price=0;
+    // 견적 계산식
+    // 가로 : a m
+    // 세로 : b m
+    // 높이 : c m
+    // 개수 : d 개 ******추가할 예정
+    // 총 중량 : e kg
+    // 구간운임 : f ******추가할 예정(나라별 환율도)
+    // 이면(axbxcxd)CBM / ekg인 화물인 경우
+    // (해상은 1CBM = 1000kg, 항공은 1CBM = 167kg)
+    const target = result.rows[0]
+    //*개수도 추가해야 됨 (가로 * 세로* 높이* 개수)CBM
+    const CBM = target.width * target.height * target.depth
+    // console.log(CBM)
+    if(target.transport=="해상") {
+      const CBMUnit = 1000
+      if(target.total_weight < CBMUnit) {
+        //해상 e < 1000 : (axbxcxd)CBM x $f x 1,286.65달러 환율
+          estimate_price=CBM * 90 * 1,286.65
+      }
+      else {
+        //해상 e >= 1000 : (e/1000)CBM x $f x 1,286.65달러 환율
+        estimate_price = target.total_weight / CBMUnit * 90 * 1,286.65 
+      }
+    }
+    if(target.transport=="항공") {
+      const CBMUnit = 167
+      //항공 e < axbxcxdx167 : (axbxcxd)CBM x 167kg x \f
+      if( target.total_weight < CBM*CBMUnit) {
+        estimate_price = CBM * CBMUnit * 90 * 1,286.65 
+      }
+      //항공 e >= axbxcxdx167 : e x \f
+      else {
+        estimate_price = target.total_weight * 90 * 1,286.65 
+      }
+    }
+    
+    if(target.total_price > 200000) {
+      //물품 총 가액 g \, 관세율(물품명, HSCode)*****(추가 예정)
+      // (통관기준 금액 20만)
+      // g >20만 : 최종 금액 = 위 계산한 결과값 x 관세율
+      estimate_price = estimate_price * 0.8
+    }
+    estimate_price = Math.ceil(estimate_price);
+    console.log(estimate_price)
+
   } catch (error) {
+    console.log(error)
     console.error("Error while fetching product data:", error);
     res.status(500).send("Error while fetching product data.");
   } finally {
     client.release();
   }
+
 });
 
 // 입력 정보 삭제(뒤로가기/처음으로 돌아가기 실행 시 필요)
@@ -99,8 +157,6 @@ app.get("/company",async (req, res)=>{
       const result = await client.query("SELECT * FROM company_table")
       res.json(result.rows)
   }
-
-
 });
 
 // server start
