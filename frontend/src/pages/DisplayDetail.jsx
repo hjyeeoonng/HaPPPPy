@@ -40,7 +40,8 @@ const DisplayDetailTextMain2 = styled.div`
 `
 
 const DisplayDetailListBox = styled.div`
-  margin: 20px;
+  margin: 30px;
+  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: row;
@@ -48,6 +49,7 @@ const DisplayDetailListBox = styled.div`
 `
 
 const DisplayDetailButtonBox = styled.div`
+  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: row;
