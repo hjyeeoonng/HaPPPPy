@@ -80,7 +80,7 @@ const GoodsInputData = styled.input`
   background: #f6f6f6;
 `;
 
-const NextButton = styled.div`
+const NextButton = styled.button`
   width: 292px;
   height: 46px;
   display: flex;
@@ -88,6 +88,7 @@ const NextButton = styled.div`
   justify-content: center;
   margin-top: 30px;
   border-radius: 10px;
+  border:none;
   background: #dddfe7;
   font-size: 18px;
   font-weight: 700;
@@ -99,24 +100,26 @@ const ButtonContainer = styled.div`
   margin-top: 20px;
 `;
 
-const HalfNextButton = styled.div`
+const HalfNextButton = styled.button`
   width: 150px;
   height: 46px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 10px;
+  border:none;
   background: #dddfe7;
   font-size: 18px;
   font-weight: 700;
 `;
-const HalfBackButton = styled.div`
+const HalfBackButton = styled.button`
   width: 150px;
   height: 46px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 10px;
+  border:none;
   background: #dddfe7;
   font-size: 18px;
   font-weight: 700;
@@ -141,7 +144,7 @@ const SuccessContainer = styled.div`
   font-weight: 700;
 `;
 
-const SuccessButton = styled.div`
+const SuccessButton = styled.button`
   width: 292px;
   height: 46px;
   display: flex;
@@ -150,6 +153,7 @@ const SuccessButton = styled.div`
   position: relative;
   bottom: 8%;
   border-radius: 10px;
+  border:none;
   background: #dddfe7;
   font-size: 18px;
   font-weight: 700;
