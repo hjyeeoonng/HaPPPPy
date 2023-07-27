@@ -1,14 +1,10 @@
 import styled from "styled-components";
 import Header from "../components/Header";
 import { useState } from "react";
+import React, { useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-
-const data = [
-  { name: "A업체", price: "11111원"},
-  { name: "B업체", price: "22222원"},
-  { name: "C업체", price: "33333원"},
-  { name: "D업체", price: "44444원"}
-];
+import { useLocation } from "react-router";
+import axios from "axios";
 
 const Root = styled.div`
   width: 100%;
@@ -31,9 +27,33 @@ const DisplayTextBox = styled.div`
   justify-content: center;
   align-items: flex-start;
 `
+
+const DisplayTextBox2 = styled.div`
+  margin-right: 30px;  
+  margin-left: 30px;
+  width: 60%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+`
 //물품명, 견적요청마감일, 견적평균가
 const DisplayText = styled.div`
-  width: 200px;
+  width: 400px;
+  height: 34px;
+  flex-shrink: 0;
+  color: #000;
+  font-family: Inria Sans;
+  font-size: 18px;
+  font-style: bold;
+  font-weight: 400;
+  line-height: normal;
+  text-align: left;
+`
+
+const DisplayText2 = styled.div`
+  width: 100%;
   height: 34px;
   flex-shrink: 0;
   color: #000;
@@ -72,13 +92,18 @@ const DisplayChangeButton = styled.div`
 `;
 
 const DisplayLine = styled.div`
-  margin-bottom:12px;
-  width: 110%;
+  margin-top:6px;
+  margin-bottom:6px;
+  width: 100%;
   height: 1px;
   background: #000;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 `
 const DisplayListBox = styled.div`
+  padding: 0px;
+  margin: 0px;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -87,18 +112,17 @@ const DisplayListBox = styled.div`
 const DisplayListImg = styled.div`
   padding: auto;
   margin: auto;
-  width: 57px;
-  height: 57px;
+  width: 50px;
+  height: 50px;
   flex-shrink: 0;
   background-color: #D9D9D9;
   border-radius: 50%;
 `
 
 const DisplayListButton = styled.div`
-  padiing: auto;
   margin: auto;
-  width: 250px;
-  height: 50px;
+  width: 80%;
+  height: 40px;
   border-radius: 10px;
   background: #595D62;
   color: #FFF;
@@ -114,7 +138,29 @@ const DisplayListButton = styled.div`
 `
 
 export const Display = () => {
-    const [count, setCount] = useState(0);
+    const passData2 = useLocation();
+    console.log(passData2);
+
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const response = await axios.get('http://localhost:5000/company');
+          const fetchedData = response.data.map(item => {
+            const minPrice = 200;
+            const maxPrice = 300;
+            const randomPrice = String((Math.floor(Math.random() * (maxPrice - minPrice + 1)) + minPrice)*1000)+"원";
+            return { ...item, price: randomPrice };
+          });
+          setData(fetchedData);
+        } catch (error) {
+          console.log('Error fetching data:', error);
+        }
+      };
+
+      fetchData();
+    }, []);
 
     const navigate = useNavigate();
 
@@ -126,21 +172,21 @@ export const Display = () => {
       <Root>
         <Header></Header>
         <DisplayTextBox>
-          <DisplayText>물품명<br/></DisplayText>
-          <DisplayText>견적요청마감일<br/></DisplayText>
-          <DisplayText>견적평균가<br/></DisplayText>
+          <DisplayText>물품명 마샬 스피커<br/></DisplayText>
+          <DisplayText>견적요청마감일 2023-07-27<br/></DisplayText>
+          <DisplayText>견적평균가 200000원<br/></DisplayText>
           <DisplayTextMain>견적서</DisplayTextMain>
         </DisplayTextBox>
         <DisplayLine></DisplayLine>
         {
           data.map((item, index)=>(
-            <div>
+            <div style={{width: '100%'}}>
             <DisplayListBox>
               <DisplayListImg></DisplayListImg>
-              <DisplayTextBox>
-                <DisplayTextMain>{item.name}</DisplayTextMain>
-                <DisplayText>{item.price}</DisplayText>
-              </DisplayTextBox>
+              <DisplayTextBox2>
+                <DisplayText2>{item.name}</DisplayText2>
+                <DisplayText2>{item.price}</DisplayText2>
+              </DisplayTextBox2>
               <DisplayListButton onClick={handleClick}>세부 정보</DisplayListButton>
             </DisplayListBox>
             <DisplayLine></DisplayLine>

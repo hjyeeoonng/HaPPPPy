@@ -165,7 +165,8 @@ export const Input = () => {
   const navigate = useNavigate();
 
   const handleDisplayClick = () => {
-    navigate("/display");
+    //현정 수정중 데이터 전달
+    navigate("/display",passData2);
   };
 
   const increaseCount = () => {
@@ -200,6 +201,10 @@ export const Input = () => {
     height: "",
     depth: "",
   });
+  //현정수정중 데이터 전달
+  const [passData2, setpassData2] = useState({
+    name: ""
+  });
 
   const nextData = () => {
     setApiData1({
@@ -214,6 +219,9 @@ export const Input = () => {
     try {
       await axios.post("http://localhost:5000/inputPage1", apiData1);
       await axios.post("http://localhost:5000/inputPage2", apiData2);
+      setpassData2({
+        name: apiData2.item_name
+      })
       setApiData1({
         shipmentType: "",
         transportType: "",

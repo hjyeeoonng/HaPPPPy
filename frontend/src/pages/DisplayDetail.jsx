@@ -4,7 +4,7 @@ import Select from "../components/Select";
 import { useState } from "react";
 import axios from "axios";
 
-const Data={comp:"A업체",name:"A물품",deadline:"2023-07-06",price1:"150000원",price2:"120000원", time:"3일"};
+const Data={comp:"B업체",name:"마샬 스피커",deadline:"2023-07-27",price1:"230000원",price2:"220000원", time:"3일"};
 
 const Root = styled.div`
   width: 100%;
@@ -40,7 +40,8 @@ const DisplayDetailTextMain2 = styled.div`
 `
 
 const DisplayDetailListBox = styled.div`
-  margin: 20px;
+  margin: 30px;
+  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: row;
@@ -48,6 +49,7 @@ const DisplayDetailListBox = styled.div`
 `
 
 const DisplayDetailButtonBox = styled.div`
+  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: row;
