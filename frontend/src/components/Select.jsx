@@ -23,46 +23,29 @@ const SelectBoxContainer = styled.div`
   display: flex;
   padding: 10px 10px;
 `;
-
-const SelectBox1 = styled.button`
+const SelectBox = styled.button`
   width: 146px;
   height: 46px;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 10px;
-  background: ${(props) => (props.color === 1 ? "#dddfe7" : "#595d62")};
-  color: ${(props) => (props.color === 1 ? "#000" : "#fff")};
-  border: ${props => (props.isClicked ? '2px solid black' : '0px solid black')};
+  background: ${(props) => (props.isClicked ? "#595d62" : "#dddfe7")};
+  color: ${(props) => (props.isClicked ? "#fff" : "#000")};
+  border: ${(props) => (props.isClicked ? "2px solid black" : "none")};
   text-align: center;
   font-family: Ubuntu;
   font-size: 18px;
   font-weight: 700;
   cursor: pointer;
-  
+  transition: background 0.3s, color 0.3s, border 0.3s;
+
   &:active {
-    border: 1px solid black
+    border: 1px solid black;
   }
-`;
 
-const SelectBox2 = styled.button`
-  width: 146px;
-  height: 46px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 10px;
-  background: ${(props) => (props.color === 1 ? "#dddfe7" : "#595d62")};
-  color: ${(props) => (props.color === 1 ? "#000" : "#fff")};
-  border: ${props => (props.isClicked ? '2px solid black' : '0px solid black')};
-  text-align: center;
-  font-family: Ubuntu;
-  font-size: 18px;
-  font-weight: 700;
-  cursor: pointer;
-  
-  &:active {
-    border: 1px solid black
+  &:hover {
+    background: ${(props) => (props.isClicked ? "#777" : "#dddfe7")};
   }
 `;
 
@@ -83,7 +66,7 @@ export const Select = ({ question, option1, option2 }) => {
     <Root>
       <SelectText>{question}</SelectText>
       <SelectBoxContainer>
-        <SelectBox1
+        <SelectBox
           color={1}
           onClick={(e) => {
             handleClickButton1();
@@ -100,8 +83,8 @@ export const Select = ({ question, option1, option2 }) => {
           isClicked={isClicked1}
         >
           {option1}
-        </SelectBox1>
-        <SelectBox2
+        </SelectBox>
+        <SelectBox
           color={2}
           onClick={(e) => {
             handleClickButton2();
@@ -118,7 +101,7 @@ export const Select = ({ question, option1, option2 }) => {
           isClicked={isClicked2}
         >
           {option2}
-        </SelectBox2>
+        </SelectBox>
       </SelectBoxContainer>
     </Root>
   );
