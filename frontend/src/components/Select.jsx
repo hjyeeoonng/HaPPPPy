@@ -71,11 +71,12 @@ export const Select = ({ question, option1, option2 }) => {
   const [isClicked2, setIsClicked2] = useState(false);
 
   const handleClickButton1 = () => {
-    setIsClicked1((prev)=>!prev);
+    setIsClicked2(false);
+    setIsClicked1(true)
   };
-
   const handleClickButton2 = () => {
-    setIsClicked2((prev)=>!prev);
+    setIsClicked2(true);
+    setIsClicked1(false)
   };
 
   return (
