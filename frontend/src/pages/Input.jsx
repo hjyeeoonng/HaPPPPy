@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Header from "../components/Header";
-import Select from "../components/Select";
+import Select from "../components/SelectButton";
+import CustomSelect from "../components/SelectBox";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -218,7 +219,7 @@ export const Input = () => {
 
   const handleDisplayClick = () => {
     //현정 수정중 데이터 전달
-    navigate("/display",passData2);
+    navigate("/display", passData2);
   };
 
   const increaseCount = () => {
@@ -293,6 +294,14 @@ export const Input = () => {
     }
   };
 
+  //장소 Selected Box
+  const [selectedOption, setSelectedOption] = useState('option1');
+
+  const handleSelectChange = (event) => {
+    setSelectedOption(event.target.value);
+  };
+
+
   return (
     <Root>
       <Header></Header>
@@ -307,11 +316,14 @@ export const Input = () => {
             option1={"수출"}
             option2={"수입"}
           ></Select>
+          <CustomSelect value={selectedOption} onChange={handleSelectChange} />
           <Select
             question={"세부 종류를 선택해주세요"}
             option1={"해상"}
             option2={"항공"}
           ></Select>
+
+
 
           <NextButton
             onClick={() => {

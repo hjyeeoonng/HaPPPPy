@@ -17,6 +17,7 @@ const Root = styled.div`
   margin-bottom: 40px;
 `;
 
+//셀렉트 박스 질문
 const SelectText = styled.div`
   width: 90%;
   margin-bottom: 50px;
@@ -30,6 +31,7 @@ const SelectBoxContainer = styled.div`
   display: flex;
   padding: 10px 10px;
 `;
+
 const SelectBox = styled.button`
   width: 146px;
   height: 46px;
