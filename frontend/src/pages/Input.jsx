@@ -5,6 +5,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+// 색상 변수 정의
+const progressbarBackgroundColor = "#595d62"
+const inputBackgroundColor = "#f6f6f6"
+const buttonBackgroundColor = "#dddfe7";
+const buttonHoverColor = "#ccc";
+const buttonActiveColor = "#aaa";
+
 const Root = styled.div`
   width: 100%;
   height: 100%;
@@ -30,7 +37,7 @@ const ProgressContainer = styled.div`
 const Progress = styled.div`
   width: ${(props) => props.width};
   height: 100%;
-  background-color: #595d62;
+  background-color: ${progressbarBackgroundColor};
   transition: width 1s;
 `;
 
@@ -39,7 +46,7 @@ const ProgressText = styled.div`
   top: 0;
   width: 70%;
   padding: 1px 8px 5px 5px;
-  color: ${(props) => (props.count === 0 ? "#595d62" : "#ffffff")};
+  color: ${(props) => (props.count === 0 ? progressbarBackgroundColor : "#ffffff")};
   font-weight: bold;
 `;
 
@@ -77,7 +84,7 @@ const GoodsInputData = styled.input`
   height: 37px;
   border-radius: 10px;
   border: 1px solid #000;
-  background: #f6f6f6;
+  background: ${inputBackgroundColor};
 `;
 
 const NextButton = styled.button`
@@ -89,9 +96,20 @@ const NextButton = styled.button`
   margin-top: 30px;
   border-radius: 10px;
   border:none;
-  background: #dddfe7;
+  background:${buttonBackgroundColor};
   font-size: 18px;
   font-weight: 700;
+  &:hover {
+    background: ${buttonHoverColor};
+  }
+
+  &:active {
+    background: ${buttonActiveColor};
+  }
+
+  &:not(:active) {
+    transition: background 0.3s;
+  }
 `;
 const ButtonContainer = styled.div`
   width: 100%;
@@ -108,9 +126,21 @@ const HalfNextButton = styled.button`
   justify-content: center;
   border-radius: 10px;
   border:none;
-  background: #dddfe7;
+  background: ${buttonBackgroundColor};
   font-size: 18px;
   font-weight: 700;
+  &:hover {
+    background: ${buttonHoverColor};
+  }
+  
+
+  &:active {
+    background: ${buttonActiveColor};
+  }
+  
+  &:not(:active) {
+    transition: background 0.3s;
+  }
 `;
 const HalfBackButton = styled.button`
   width: 150px;
@@ -120,9 +150,20 @@ const HalfBackButton = styled.button`
   justify-content: center;
   border-radius: 10px;
   border:none;
-  background: #dddfe7;
+  background: ${buttonBackgroundColor};
   font-size: 18px;
   font-weight: 700;
+  &:hover {
+    background: ${buttonHoverColor};
+  }
+
+  &:active {
+    background:  ${buttonActiveColor};
+  }
+
+  &:not(:active) {
+    transition: background 0.3s;
+  }
 `;
 
 const SuccessRoot = styled.div`
@@ -154,9 +195,20 @@ const SuccessButton = styled.button`
   bottom: 8%;
   border-radius: 10px;
   border:none;
-  background: #dddfe7;
+  background:${buttonBackgroundColor};
   font-size: 18px;
   font-weight: 700;
+  &:hover {
+    background:${buttonHoverColor};
+  }
+
+  &:active {
+    background:  ${buttonActiveColor};
+  }
+
+  &:not(:active) {
+    transition: background 0.3s;
+  }
 `;
 
 export const Input = () => {

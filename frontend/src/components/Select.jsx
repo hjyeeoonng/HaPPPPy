@@ -1,6 +1,13 @@
 import { useState } from "react";
 import styled from "styled-components";
 
+
+// 색상 변수 정의
+const progressbarBackgroundColor = "#595d62"
+const buttonBackgroundColor = "#dddfe7";
+const buttonHoverColor = "#ccc";
+
+
 const Root = styled.div`
   width: 100%;
   display: flex;
@@ -30,7 +37,7 @@ const SelectBox = styled.button`
   justify-content: center;
   align-items: center;
   border-radius: 10px;
-  background: ${(props) => (props.isClicked ? "#595d62" : "#dddfe7")};
+  background: ${(props) => (props.isClicked ? progressbarBackgroundColor : buttonBackgroundColor)};
   color: ${(props) => (props.isClicked ? "#fff" : "#000")};
   border: ${(props) => (props.isClicked ? "2px solid black" : "none")};
   text-align: center;
@@ -40,13 +47,13 @@ const SelectBox = styled.button`
   cursor: pointer;
   transition: background 0.3s, color 0.3s, border 0.3s;
 
+  &:hover {
+    background: ${(props) => (props.isClicked ? buttonBackgroundColor : buttonHoverColor)};
+  }
   &:active {
     border: 1px solid black;
   }
 
-  &:hover {
-    background: ${(props) => (props.isClicked ? "#777" : "#dddfe7")};
-  }
 `;
 
 export const Select = ({ question, option1, option2 }) => {
