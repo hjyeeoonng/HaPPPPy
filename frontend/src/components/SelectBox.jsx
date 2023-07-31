@@ -8,34 +8,22 @@ const Root = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 5px 5px;
 `;
-
 
 // 셀렉트 박스를 감싸는 컨테이너
 const SelectContainer = styled.div`
   position: relative;
   display: inline-block;
-  font-family: Arial, sans-serif;
-`;
-
-//셀렉트 박스의 질문
-const SelectText = styled.div`
-  width: 90%;
-  margin-bottom: 50px;
-  font-family: Ubuntu;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 700;
 `;
 
 // 실제 셀렉트 박스 스타일
 const Select = styled.select`
-  width: 280px;
+  width: ${(props) => props.width};
+  height: 40px;
   appearance: none;
-  background-color: #f2f2f2;
+  background-color: #f6f6f6;
   border: 1px solid #ccc;
-  border-radius: 20px;
+  border-radius: 10px;
   padding: 10px 30px 10px 15px;
   font-size: 16px;
   color: #333;
@@ -58,23 +46,14 @@ const ArrowIcon = styled.span`
 
 
 
-const options = [
-  { value: 'New York', label: 'New York' },
-  { value: 'Ottawa', label: 'Ottawa' },
-  { value: 'Berlin', label: 'Berlin' },
-  { value: 'Milano', label: 'Milano' },
-  { value: 'Tokyo', label: 'Tokyo' },
-];
-
-const CustomSelect = ({ value, onChange }) => {
+const CustomSelect = ({ value, onChange, options, width}) => {
   return (
     <Root>
-      <SelectText>장소를 선택해주세요</SelectText>
-      <SelectContainer>
 
-        <Select value={value} onChange={onChange}>
+      <SelectContainer>
+        <Select value={value} onChange={onChange} width={width}>
           {options.map((option) => (
-            <option key={option.value} value={option.value}>
+            <option key={option.value} value={option.value} >
               {option.label}
             </option>
           ))}

@@ -20,7 +20,7 @@ const Root = styled.div`
 //셀렉트 박스 질문
 const SelectText = styled.div`
   width: 90%;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
   font-family: Ubuntu;
   font-size: 20px;
   font-style: normal;
