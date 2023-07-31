@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import Header from "../components/Header";
-import Select from "../components/Select";
 import { useState } from "react";
 import axios from "axios";
 
