@@ -253,6 +253,8 @@ export const Input = () => {
     width: "",
     height: "",
     depth: "",
+    item_number:"",
+
   });
   //현정수정중 데이터 전달
   const [passData2, setpassData2] = useState({
@@ -287,6 +289,7 @@ export const Input = () => {
         width: "",
         height: "",
         depth: "",
+        item_number:"",
       });
     } catch (error) {
       console.error(error);
@@ -379,6 +382,12 @@ export const Input = () => {
             <GoodsInputData
               onChange={(e) =>
                 setApiData2({ ...apiData2, depth: e.target.value })
+              }
+            ></GoodsInputData>
+            <GoodsInfo>물품 개수</GoodsInfo>
+            <GoodsInputData
+              onChange={(e) =>
+                setApiData2({ ...apiData2, item_number: e.target.value })
               }
             ></GoodsInputData>
           </GoodsInfoContainer>
