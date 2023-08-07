@@ -14,19 +14,19 @@ const buttonHoverColor = "#ccc";
 const buttonActiveColor = "#aaa";
 
 const Root = styled.div`
-  width: 100%;
-  height: 100%;
+  width: 375px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 5px 5px;
+  margin: 0 auto;
 `;
 
 const JustSpan = styled.span``;
 
 const ProgressContainer = styled.div`
-  width: 70%;
+  width: 50%;
   height: 30px;
   display: flex;
   margin-top: 10px;
@@ -348,7 +348,7 @@ export const Input = () => {
       {count === 0 && (
         <SelectContainer>
           <Select
-            question={"진행하려는 무역의 종류가 어떤 방식인가요?"}
+            question={"진행하려는 무역의 종류를 선택해주세요."}
             option1={"수출"}
             option2={"수입"}
           ></Select>
@@ -356,7 +356,7 @@ export const Input = () => {
           <CustomSelect value={selectedOption} onChange={handleSelectChange} options={options1} width={292+"px"}/>
           <MarginBox></MarginBox>
           <Select
-            question={"세부 종류를 선택해주세요"}
+            question={"운임 방법을 선택해주세요"}
             option1={"해상"}
             option2={"항공"}
           ></Select>

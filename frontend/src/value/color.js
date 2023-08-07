@@ -1,6 +1,8 @@
-// 색상 변수 정의
-const progressbarBackgroundColor = "#595d62"
-const inputBackgroundColor = "#f6f6f6"
-const buttonBackgroundColor = "#dddfe7";
-const buttonHoverColor = "#ccc";
-const buttonActiveColor = "#aaa";
+const theme = {
+  main_text: "#1C1C1C",
+  second_text: "#545454",
+  main:"#3F61EC",
+  back:"#F0F0F0",
+};
+
+export default theme;
