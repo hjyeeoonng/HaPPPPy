@@ -32,7 +32,8 @@ const ProgressContainer = styled.div`
   margin-top: 10px;
   position: relative;
   background-color: #ffffff;
-  border: 0.5px solid black;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 `;
 
 const Progress = styled.div`
@@ -62,6 +63,16 @@ const SelectContainer = styled.div`
   padding: 5px 5px;
 `;
 
+//셀렉트 박스의 질문
+const SelectText = styled.div`
+  width: 90%;
+  margin-bottom: 30px;
+  font-family: Ubuntu;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+`;
+
 const GoodsInfoContainer = styled.div`
   width: 100%;
   margin-top: 41px;
@@ -84,7 +95,7 @@ const GoodsInputData = styled.input`
   width: 310px;
   height: 37px;
   border-radius: 10px;
-  border: 1px solid #000;
+  border: 1px solid #ccc;
   background: ${inputBackgroundColor};
 `;
 
@@ -212,6 +223,9 @@ const SuccessButton = styled.button`
   }
 `;
 
+const MarginBox = styled.div`
+  margin-bottom: 30px;
+`
 export const Input = () => {
   const [count, setCount] = useState(0);
 
@@ -304,6 +318,28 @@ export const Input = () => {
     setSelectedOption(event.target.value);
   };
 
+  const options1 = [
+    { value: 'New York', label: 'New York' },
+    { value: 'Ottawa', label: 'Ottawa' },
+    { value: 'Berlin', label: 'Berlin' },
+    { value: 'Milano', label: 'Milano' },
+    { value: 'Tokyo', label: 'Tokyo' },
+  ];
+
+  const options2 = [
+    { value: '냉동/냉장', label: '냉동/냉장' },
+    { value: '화장품/미용', label: '화장품/미용' },
+    { value: '패션의류', label: '패션의류' },
+    { value: '패션잡화', label: '패션잡화' },
+    { value: '디지털/가전', label: '디지털/가전' },
+    { value: '가구/인테리어', label: '가구/인테리어' },
+    { value: '출산/육아', label: '출산/육아' },
+    { value: '생활/건강', label: '생활/건강' },
+    { value: '도서', label: '도서' },
+    { value: '애완용품', label: '애완용품' },
+    { value: '상온식품', label: '상온식품' },
+    { value: '기타', label: '기타' },
+  ];
 
   return (
     <Root>
@@ -319,7 +355,9 @@ export const Input = () => {
             option1={"수출"}
             option2={"수입"}
           ></Select>
-          <CustomSelect value={selectedOption} onChange={handleSelectChange} />
+          <SelectText>장소를 선택해주세요</SelectText>
+          <CustomSelect value={selectedOption} onChange={handleSelectChange} options={options1} width={292+"px"}/>
+          <MarginBox></MarginBox>
           <Select
             question={"세부 종류를 선택해주세요"}
             option1={"해상"}
@@ -343,11 +381,12 @@ export const Input = () => {
           <GoodsInfoContainer>
             <GoodsInfoHeader>물품 정보를 등록해주세요</GoodsInfoHeader>
             <GoodsInfo>물품명</GoodsInfo>
-            <GoodsInputData
-              onChange={(e) =>
-                setApiData2({ ...apiData2, item_name: e.target.value })
-              }
-            ></GoodsInputData>
+            <CustomSelect value={selectedOption} onChange={(e) =>{
+                setApiData2({ ...apiData2, item_name: selectedOption });
+                handleSelectChange(e);
+            }
+              } options={options2} width={310+"px"}/>
+
             <GoodsInfo>HSCode</GoodsInfo>
             <GoodsInputData
               onChange={(e) =>
