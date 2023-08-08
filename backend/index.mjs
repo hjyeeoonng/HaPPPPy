@@ -23,6 +23,9 @@ const pool = new pg.Pool({
   database: process.env.DB_NAME,
 });
 
+app.get("/", (req, res) => {
+  res.json("success");
+});
 
 // 첫 번째 페이지에서 입력받은 값(수입/수출, 항공/해상) 저장
 let shipmentType = "";
