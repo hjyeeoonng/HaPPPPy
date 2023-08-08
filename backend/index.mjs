@@ -29,24 +29,26 @@ app.get("/", (req, res) => {
 
 // 첫 번째 페이지에서 입력받은 값(수입/수출, 항공/해상) 저장
 let shipmentType = "";
+let countrySelect = "";
 let transportType = "";
 
 
 app.post("/inputPage1", (req, res) => {
   shipmentType = req.body.shipmentType;
+  countrySelect = req.body.countrySelect;
   transportType = req.body.transportType;
   res.send("success");
 });
 
 // 물품 정보를 입력받는 두 번째 페이지
 app.post("/inputPage2", async (req, res) => {
-  const { item_name, hs_code, total_price, total_weight, width, height, depth } = req.body;
+  const { item_name, hs_code, total_price, total_weight, width, height, depth, item_number } = req.body;
 
   const client = await pool.connect();
 
   try {
-    const query = "INSERT INTO products (type, transport, item_name, hs_code, total_price, total_weight, width, height, depth) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)";
-    await client.query(query, [shipmentType, transportType, item_name, hs_code, total_price, total_weight, width, height, depth]);
+    const query = "INSERT INTO products (type, country,  transport, item_name, hs_code, total_price, total_weight, width, height, depth, item_number) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)";
+    await client.query(query, [shipmentType, countrySelect, transportType, item_name, hs_code, total_price, total_weight, width, height, depth, item_number]);
     res.send("success");
   } catch (error) {
     console.error("Error while inserting product data:", error);
