@@ -34,12 +34,12 @@ const SelectBox = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(0deg, #F6F7F9, #F6F7F9),
+  background: linear-gradient(0deg, ${theme.light_gray}, ${theme.light_gray}),
   linear-gradient(0deg,  ${theme.back}, ${theme.back});
-  color: ${(props) => (props.isClicked ? "#fff" : "#000")};
-  border: ${(props) => (props.isClicked ? "2px solid ${theme.main}" : "none")};
+
+  border: ${(props) => (props.isClicked ? `2px solid ${theme.main}` : `2px solid ${theme.light_gray}`)};
   text-align: center;
-  border: 1px solid rgba(240, 240, 240, 1);
+
   cursor: pointer;
   transition: background 0.3s, color 0.3s, border 0.3s;
 
