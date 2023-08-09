@@ -5,6 +5,7 @@ import CustomSelect from "../components/SelectBox";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import theme from "../value/color";
 
 // 색상 변수 정의
 const progressbarBackgroundColor = "#595d62"
@@ -14,19 +15,20 @@ const buttonHoverColor = "#ccc";
 const buttonActiveColor = "#aaa";
 
 const Root = styled.div`
-  width: 100%;
-  height: 100%;
+  width: 375px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 5px 5px;
+  margin: 0 auto;
+  
 `;
 
 const JustSpan = styled.span``;
 
 const ProgressContainer = styled.div`
-  width: 70%;
+  width: 50%;
   height: 30px;
   display: flex;
   margin-top: 10px;
@@ -67,10 +69,11 @@ const SelectContainer = styled.div`
 const SelectText = styled.div`
   width: 90%;
   margin-bottom: 30px;
-  font-family: Ubuntu;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 700;
+  font-family: AppleSDGothicNeoM00;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: -0.5px;
 `;
 
 const GoodsInfoContainer = styled.div`
@@ -100,23 +103,26 @@ const GoodsInputData = styled.input`
 `;
 
 const NextButton = styled.button`
-  width: 292px;
-  height: 46px;
+  width: 327px;
+  height: 54px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-top: 30px;
   border-radius: 10px;
   border:none;
-  background:${buttonBackgroundColor};
+  background:${theme.light_gray};
+  color: ${theme.medium_gray};
   font-size: 18px;
   font-weight: 700;
   &:hover {
-    background: ${buttonHoverColor};
+    background: ${theme.main};
+    color: white;
   }
 
   &:active {
-    background: ${buttonActiveColor};
+    background: ${theme.main};
+    color: white;
   }
 
   &:not(:active) {
@@ -316,6 +322,7 @@ export const Input = () => {
   };
 
   const options1 = [
+    { value: '장소를 선택해주세요', label: '장소를 선택해주세요' },
     { value: 'New York', label: 'New York' },
     { value: 'Ottawa', label: 'Ottawa' },
     { value: 'Berlin', label: 'Berlin' },
@@ -348,15 +355,15 @@ export const Input = () => {
       {count === 0 && (
         <SelectContainer>
           <Select
-            question={"진행하려는 무역의 종류가 어떤 방식인가요?"}
+            question={"진행하려는 무역의 종류를 선택해주세요."}
             option1={"수출"}
             option2={"수입"}
           ></Select>
           <SelectText>장소를 선택해주세요</SelectText>
-          <CustomSelect value={selectedOption} onChange={handleSelectChange} options={options1} width={292+"px"}/>
+          <CustomSelect value={selectedOption} onChange={handleSelectChange} options={options1} width={328+"px"}/>
           <MarginBox></MarginBox>
           <Select
-            question={"세부 종류를 선택해주세요"}
+            question={"운임 방법을 선택해주세요"}
             option1={"해상"}
             option2={"항공"}
           ></Select>
@@ -369,7 +376,7 @@ export const Input = () => {
               nextData();
             }}
           >
-            다음 단계
+            다음
           </NextButton>
         </SelectContainer>
       )}
@@ -382,7 +389,7 @@ export const Input = () => {
                 setApiData2({ ...apiData2, item_name: selectedOption });
                 handleSelectChange(e);
             }
-              } options={options2} width={310+"px"}/>
+              } options={options2} width={328+"px"}/>
 
             <GoodsInfo>HSCode</GoodsInfo>
             <GoodsInputData
