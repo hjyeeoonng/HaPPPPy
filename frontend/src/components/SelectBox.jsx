@@ -4,7 +4,6 @@ import theme from '../value/color';
 
 const Root = styled.div`
   width: 375px;
-
   font-family: AppleSDGothicNeoM00;
   font-size: 18px;
   font-weight: 400;
@@ -52,7 +51,6 @@ const ArrowIcon = styled.span`
 const CustomSelect = ({ value, onChange, options, width}) => {
   return (
     <Root>
-
       <SelectContainer>
         <Select value={value} onChange={onChange} width={width}>
           {options.map((option) => (
