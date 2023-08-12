@@ -18,7 +18,6 @@ const SelectBoxContainer = styled.div`
   display: flex;
 `;
 
-
 //셀렉트 박스 질문
 const SelectText = styled.div`
   margin-bottom: 30px;

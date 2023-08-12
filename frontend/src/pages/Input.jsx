@@ -6,12 +6,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import theme from "../value/color";
-
-// 색상 변수 정의
-const progressbarBackgroundColor = "#595d62"
-const buttonBackgroundColor = "#dddfe7";
-const buttonHoverColor = "#ccc";
-const buttonActiveColor = "#aaa";
+import { ReactComponent as Checked } from "../img/checked.svg";
 
 const Root = styled.div`
   width: 375px;
@@ -24,30 +19,21 @@ const Root = styled.div`
 `;
 
 const ProgressContainer = styled.div`
-  width: 50%;
-  height: 30px;
+  width: 124px;
+  height: 10px;
   display: flex;
-  margin-top: 10px;
+  margin-top: 30px;
   position: relative;
-  background-color: #ffffff;
-  border: 1px solid #ccc;
+  background-color: rgba(108, 137, 255, 0.4);
   border-radius: 5px;
 `;
 
 const Progress = styled.div`
   width: ${(props) => props.width};
   height: 100%;
-  background-color: ${progressbarBackgroundColor};
+  background-color: ${theme.main};
   transition: width 1s;
-`;
-
-const ProgressText = styled.div`
-  position: absolute;
-  top: 0;
-  width: 70%;
-  padding: 1px 8px 5px 5px;
-  color: ${(props) => (props.count === 0 ? progressbarBackgroundColor : "#ffffff")};
-  font-weight: bold;
+  border-radius: 5px;
 `;
 
 const SelectContainer = styled.div`
@@ -87,7 +73,6 @@ const GoodsInfoHeader = styled.div`
   margin-bottom: 21px;
   font-size: 24px;
   font-weight: 400;
-  
 `;
 
 const GoodsInfo = styled.div`
@@ -140,7 +125,7 @@ const SuccessRoot = styled.div`
 `;
 
 const SuccessContainer = styled.div`
-  height: 100vh;
+  height: 80vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -148,6 +133,9 @@ const SuccessContainer = styled.div`
   font-size: 24px;
   font-weight: 400;
 `;
+
+const SuccessText = styled.div`
+margin-top: 40px;`
 
 const SuccessButton = styled.button`
   width: 327px;
@@ -289,7 +277,6 @@ export const Input = () => {
     <Root>
       <Header></Header>
       <ProgressContainer>
-        <ProgressText count={count}>{count} of 2</ProgressText>
         <Progress width={(count / 2) * 100 + "%"}></Progress>
       </ProgressContainer>
       {count === 0 && (
@@ -379,7 +366,7 @@ export const Input = () => {
 
       {count === 2 && (
         <SuccessRoot>
-          <SuccessContainer>물품 정보 등록 완료!</SuccessContainer>
+          <SuccessContainer><Checked></Checked><SuccessText>물품 정보 등록 완료!</SuccessText></SuccessContainer>
           <SuccessButton onClick={handleDisplayClick}>업체별 견적 보러가기</SuccessButton>
         </SuccessRoot>
       )}
