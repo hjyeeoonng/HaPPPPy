@@ -9,7 +9,6 @@ import theme from "../value/color";
 
 // 색상 변수 정의
 const progressbarBackgroundColor = "#595d62"
-const inputBackgroundColor = "#f6f6f6"
 const buttonBackgroundColor = "#dddfe7";
 const buttonHoverColor = "#ccc";
 const buttonActiveColor = "#aaa";
@@ -20,12 +19,9 @@ const Root = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 5px 5px;
   margin: 0 auto;
-  
+  overflow-x: hidden;
 `;
-
-const JustSpan = styled.span``;
 
 const ProgressContainer = styled.div`
   width: 50%;
@@ -56,7 +52,6 @@ const ProgressText = styled.div`
 
 const SelectContainer = styled.div`
   width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -70,7 +65,7 @@ const SelectText = styled.div`
   width: 90%;
   margin-bottom: 30px;
   font-family: AppleSDGothicNeoM00;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 400;
   line-height: 20px;
   letter-spacing: -0.5px;
@@ -78,32 +73,38 @@ const SelectText = styled.div`
 
 const GoodsInfoContainer = styled.div`
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   margin-top: 41px;
+  padding: 5px 5px;
 `;
 
 const GoodsInfoHeader = styled.div`
+  width: 100%;
+  margin-left: 20px;
   margin-bottom: 21px;
-  font-family: Ubuntu;
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 24px;
+  font-weight: 400;
+  
 `;
 
 const GoodsInfo = styled.div`
-  margin: 9px 0px 5px 0px;
-  font-family: Ubuntu;
-  font-size: 15px;
+  width: 100%;
+  margin: 9px 0px 5px 20px;
+  font-size: 20px;
 `;
 
 const GoodsInputData = styled.input`
-  width: 310px;
-  height: 37px;
+  width: 328px;
+  height: 54px;
   border-radius: 10px;
-  border: 1px solid #ccc;
-  background: ${inputBackgroundColor};
+  border: 1px solid ${theme.medium_gray};
 `;
 
 const NextButton = styled.button`
-  width: 327px;
+  width: 328px;
   height: 54px;
   display: flex;
   align-items: center;
@@ -129,60 +130,6 @@ const NextButton = styled.button`
     transition: background 0.3s;
   }
 `;
-const ButtonContainer = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-`;
-
-const HalfNextButton = styled.button`
-  width: 150px;
-  height: 46px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-  border:none;
-  background: ${buttonBackgroundColor};
-  font-size: 18px;
-  font-weight: 700;
-  &:hover {
-    background: ${buttonHoverColor};
-  }
-  
-
-  &:active {
-    background: ${buttonActiveColor};
-  }
-  
-  &:not(:active) {
-    transition: background 0.3s;
-  }
-`;
-const HalfBackButton = styled.button`
-  width: 150px;
-  height: 46px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-  border:none;
-  background: ${buttonBackgroundColor};
-  font-size: 18px;
-  font-weight: 700;
-  &:hover {
-    background: ${buttonHoverColor};
-  }
-
-  &:active {
-    background:  ${buttonActiveColor};
-  }
-
-  &:not(:active) {
-    transition: background 0.3s;
-  }
-`;
 
 const SuccessRoot = styled.div`
   width: 100%;
@@ -193,19 +140,18 @@ const SuccessRoot = styled.div`
 `;
 
 const SuccessContainer = styled.div`
-  height: 75%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-family: Ubuntu;
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 24px;
+  font-weight: 400;
 `;
 
 const SuccessButton = styled.button`
-  width: 292px;
-  height: 46px;
+  width: 327px;
+  height: 54px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -213,15 +159,16 @@ const SuccessButton = styled.button`
   bottom: 8%;
   border-radius: 10px;
   border:none;
-  background:${buttonBackgroundColor};
+  background:${theme.main};
+  color: white;
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 400;
   &:hover {
-    background:${buttonHoverColor};
+    background:${theme.sub};
   }
 
   &:active {
-    background:  ${buttonActiveColor};
+    background: ${theme.main};
   }
 
   &:not(:active) {
@@ -232,6 +179,7 @@ const SuccessButton = styled.button`
 const MarginBox = styled.div`
   margin-bottom: 30px;
 `
+
 export const Input = () => {
   const [count, setCount] = useState(0);
 
@@ -251,15 +199,6 @@ export const Input = () => {
     console.log(count);
   };
 
-  const decreaseCount = () => {
-    if (count === 0) {
-      setCount(0);
-    } else {
-      setCount((prev) => prev - 1);
-    }
-    console.log(count);
-  };
-
   const [apiData1, setApiData1] = useState({
     shipmentType: "",
     transportType: "",
@@ -274,6 +213,7 @@ export const Input = () => {
     height: "",
     depth: "",
   });
+
   //현정수정중 데이터 전달
   const [passData2, setpassData2] = useState({
     name: ""
@@ -360,16 +300,13 @@ export const Input = () => {
             option2={"수입"}
           ></Select>
           <SelectText>장소를 선택해주세요</SelectText>
-          <CustomSelect value={selectedOption} onChange={handleSelectChange} options={options1} width={328+"px"}/>
+          <CustomSelect value={selectedOption} onChange={handleSelectChange} options={options1} width={328 + "px"} />
           <MarginBox></MarginBox>
           <Select
             question={"운임 방법을 선택해주세요"}
             option1={"해상"}
             option2={"항공"}
           ></Select>
-
-
-
           <NextButton
             onClick={() => {
               increaseCount();
@@ -380,72 +317,64 @@ export const Input = () => {
           </NextButton>
         </SelectContainer>
       )}
-      {count === 1 && (
-        <JustSpan>
-          <GoodsInfoContainer>
-            <GoodsInfoHeader>물품 정보를 등록해주세요</GoodsInfoHeader>
-            <GoodsInfo>물품명</GoodsInfo>
-            <CustomSelect value={selectedOption} onChange={(e) =>{
-                setApiData2({ ...apiData2, item_name: selectedOption });
-                handleSelectChange(e);
-            }
-              } options={options2} width={328+"px"}/>
 
-            <GoodsInfo>HSCode</GoodsInfo>
-            <GoodsInputData
-              onChange={(e) =>
-                setApiData2({ ...apiData2, hs_code: e.target.value })
-              }
-            ></GoodsInputData>
-            <GoodsInfo>물품 총 가액</GoodsInfo>
-            <GoodsInputData
-              onChange={(e) =>
-                setApiData2({ ...apiData2, total_price: e.target.value })
-              }
-            ></GoodsInputData>
-            <GoodsInfo>총중량</GoodsInfo>
-            <GoodsInputData
-              onChange={(e) =>
-                setApiData2({ ...apiData2, total_weight: e.target.value })
-              }
-            ></GoodsInputData>
-            <GoodsInfo>물품 가로 길이</GoodsInfo>
-            <GoodsInputData
-              onChange={(e) =>
-                setApiData2({ ...apiData2, width: e.target.value })
-              }
-            ></GoodsInputData>
-            <GoodsInfo>물품 세로 길이</GoodsInfo>
-            <GoodsInputData
-              onChange={(e) =>
-                setApiData2({ ...apiData2, height: e.target.value })
-              }
-            ></GoodsInputData>
-            <GoodsInfo>물품 높이</GoodsInfo>
-            <GoodsInputData
-              onChange={(e) =>
-                setApiData2({ ...apiData2, depth: e.target.value })
-              }
-            ></GoodsInputData>
-          </GoodsInfoContainer>
-          <ButtonContainer>
-            <HalfBackButton
-              onClick={() => {
-                decreaseCount();
-              }}
-            >
-              이전 단계
-            </HalfBackButton>
-            <HalfNextButton
-              onClick={() => {
-                increaseCount();
-                addDatasInputPage2();
-              }}
-            >
-              다음 단계
-            </HalfNextButton>
-          </ButtonContainer>
-        </JustSpan>
+      {count === 1 && (
+        <GoodsInfoContainer>
+          <GoodsInfoHeader>물품 정보를 등록해주세요</GoodsInfoHeader>
+          <GoodsInfo>물품명</GoodsInfo>
+          <CustomSelect value={selectedOption} onChange={(e) => {
+            setApiData2({ ...apiData2, item_name: selectedOption });
+            handleSelectChange(e);
+          }
+          } options={options2} width={328 + "px"} />
+
+          <GoodsInfo>HSCode</GoodsInfo>
+          <GoodsInputData
+            onChange={(e) =>
+              setApiData2({ ...apiData2, hs_code: e.target.value })
+            }
+          ></GoodsInputData>
+          <GoodsInfo>물품 총 가액(원)</GoodsInfo>
+          <GoodsInputData
+            onChange={(e) =>
+              setApiData2({ ...apiData2, total_price: e.target.value })
+            }
+          ></GoodsInputData>
+          <GoodsInfo>총 중량(kg)</GoodsInfo>
+          <GoodsInputData
+            onChange={(e) =>
+              setApiData2({ ...apiData2, total_weight: e.target.value })
+            }
+          ></GoodsInputData>
+          <GoodsInfo>물품 가로 길이(m)</GoodsInfo>
+          <GoodsInputData
+            onChange={(e) =>
+              setApiData2({ ...apiData2, width: e.target.value })
+            }
+          ></GoodsInputData>
+          <GoodsInfo>물품 세로 길이(m)</GoodsInfo>
+          <GoodsInputData
+            onChange={(e) =>
+              setApiData2({ ...apiData2, height: e.target.value })
+            }
+          ></GoodsInputData>
+          <GoodsInfo>물품 높이(m)</GoodsInfo>
+          <GoodsInputData
+            onChange={(e) =>
+              setApiData2({ ...apiData2, depth: e.target.value })
+            }
+          ></GoodsInputData>
+
+          <NextButton
+            onClick={() => {
+              increaseCount();
+              addDatasInputPage2();
+            }}
+          >
+          다음
+          </NextButton>
+        </GoodsInfoContainer>
+
       )}
 
       {count === 2 && (

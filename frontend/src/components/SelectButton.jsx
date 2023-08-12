@@ -7,7 +7,7 @@ const Root = styled.div`
   width: 375px;
   margin-bottom: 40px;
   font-family: AppleSDGothicNeoM00;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 400;
   line-height: 20px;
   letter-spacing: -0.5px;
@@ -16,7 +16,6 @@ const Root = styled.div`
 
 const SelectBoxContainer = styled.div`
   display: flex;
-
 `;
 
 
