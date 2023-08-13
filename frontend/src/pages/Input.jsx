@@ -5,56 +5,39 @@ import CustomSelect from "../components/SelectBox";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
-// 색상 변수 정의
-const progressbarBackgroundColor = "#595d62"
-const inputBackgroundColor = "#f6f6f6"
-const buttonBackgroundColor = "#dddfe7";
-const buttonHoverColor = "#ccc";
-const buttonActiveColor = "#aaa";
+import theme from "../value/color";
+import { ReactComponent as Checked } from "../img/checked.svg";
 
 const Root = styled.div`
-  width: 100%;
-  height: 100%;
+  width: 375px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 5px 5px;
+  margin: 0 auto;
+  overflow-x: hidden;
 `;
 
-const JustSpan = styled.span``;
-
 const ProgressContainer = styled.div`
-  width: 70%;
-  height: 30px;
+  width: 124px;
+  height: 10px;
   display: flex;
-  margin-top: 10px;
+  margin-top: 30px;
   position: relative;
-  background-color: #ffffff;
-  border: 1px solid #ccc;
+  background-color: rgba(108, 137, 255, 0.4);
   border-radius: 5px;
 `;
 
 const Progress = styled.div`
   width: ${(props) => props.width};
   height: 100%;
-  background-color: ${progressbarBackgroundColor};
+  background-color: ${theme.main};
   transition: width 1s;
-`;
-
-const ProgressText = styled.div`
-  position: absolute;
-  top: 0;
-  width: 70%;
-  padding: 1px 8px 5px 5px;
-  color: ${(props) => (props.count === 0 ? progressbarBackgroundColor : "#ffffff")};
-  font-weight: bold;
+  border-radius: 5px;
 `;
 
 const SelectContainer = styled.div`
   width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -67,110 +50,65 @@ const SelectContainer = styled.div`
 const SelectText = styled.div`
   width: 90%;
   margin-bottom: 30px;
-  font-family: Ubuntu;
+  font-family: AppleSDGothicNeoM00;
   font-size: 20px;
-  font-style: normal;
-  font-weight: 700;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: -0.5px;
 `;
 
 const GoodsInfoContainer = styled.div`
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   margin-top: 41px;
+  padding: 5px 5px;
 `;
 
 const GoodsInfoHeader = styled.div`
+  width: 100%;
+  margin-left: 20px;
   margin-bottom: 21px;
-  font-family: Ubuntu;
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 24px;
+  font-weight: 400;
 `;
 
 const GoodsInfo = styled.div`
-  margin: 9px 0px 5px 0px;
-  font-family: Ubuntu;
-  font-size: 15px;
+  width: 100%;
+  margin: 9px 0px 5px 20px;
+  font-size: 20px;
 `;
 
 const GoodsInputData = styled.input`
-  width: 310px;
-  height: 37px;
+  width: 328px;
+  height: 54px;
   border-radius: 10px;
-  border: 1px solid #ccc;
-  background: ${inputBackgroundColor};
+  border: 1px solid ${theme.medium_gray};
 `;
 
 const NextButton = styled.button`
-  width: 292px;
-  height: 46px;
+  width: 328px;
+  height: 54px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-top: 30px;
   border-radius: 10px;
   border:none;
-  background:${buttonBackgroundColor};
+  background:${theme.light_gray};
+  color: ${theme.medium_gray};
   font-size: 18px;
   font-weight: 700;
   &:hover {
-    background: ${buttonHoverColor};
+    background: ${theme.main};
+    color: white;
   }
 
   &:active {
-    background: ${buttonActiveColor};
-  }
-
-  &:not(:active) {
-    transition: background 0.3s;
-  }
-`;
-const ButtonContainer = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-`;
-
-const HalfNextButton = styled.button`
-  width: 150px;
-  height: 46px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-  border:none;
-  background: ${buttonBackgroundColor};
-  font-size: 18px;
-  font-weight: 700;
-  &:hover {
-    background: ${buttonHoverColor};
-  }
-  
-
-  &:active {
-    background: ${buttonActiveColor};
-  }
-  
-  &:not(:active) {
-    transition: background 0.3s;
-  }
-`;
-const HalfBackButton = styled.button`
-  width: 150px;
-  height: 46px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-  border:none;
-  background: ${buttonBackgroundColor};
-  font-size: 18px;
-  font-weight: 700;
-  &:hover {
-    background: ${buttonHoverColor};
-  }
-
-  &:active {
-    background:  ${buttonActiveColor};
+    background: ${theme.main};
+    color: white;
   }
 
   &:not(:active) {
@@ -187,19 +125,21 @@ const SuccessRoot = styled.div`
 `;
 
 const SuccessContainer = styled.div`
-  height: 75%;
+  height: 80vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-family: Ubuntu;
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 24px;
+  font-weight: 400;
 `;
 
+const SuccessText = styled.div`
+margin-top: 40px;`
+
 const SuccessButton = styled.button`
-  width: 292px;
-  height: 46px;
+  width: 327px;
+  height: 54px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -207,15 +147,16 @@ const SuccessButton = styled.button`
   bottom: 8%;
   border-radius: 10px;
   border:none;
-  background:${buttonBackgroundColor};
+  background:${theme.main};
+  color: white;
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 400;
   &:hover {
-    background:${buttonHoverColor};
+    background:${theme.sub};
   }
 
   &:active {
-    background:  ${buttonActiveColor};
+    background: ${theme.main};
   }
 
   &:not(:active) {
@@ -226,6 +167,7 @@ const SuccessButton = styled.button`
 const MarginBox = styled.div`
   margin-bottom: 30px;
 `
+
 export const Input = () => {
   const [count, setCount] = useState(0);
 
@@ -241,15 +183,6 @@ export const Input = () => {
       setCount(0);
     } else {
       setCount((prev) => prev + 1);
-    }
-    console.log(count);
-  };
-
-  const decreaseCount = () => {
-    if (count === 0) {
-      setCount(0);
-    } else {
-      setCount((prev) => prev - 1);
     }
     console.log(count);
   };
@@ -270,6 +203,7 @@ export const Input = () => {
     item_number:"",
 
   });
+
   //현정수정중 데이터 전달
   const [passData2, setpassData2] = useState({
     name: ""
@@ -319,6 +253,7 @@ export const Input = () => {
   };
 
   const options1 = [
+    { value: '장소를 선택해주세요', label: '장소를 선택해주세요' },
     { value: 'New York', label: 'New York' },
     { value: 'Ottawa', label: 'Ottawa' },
     { value: 'Berlin', label: 'Berlin' },
@@ -345,48 +280,35 @@ export const Input = () => {
     <Root>
       <Header></Header>
       <ProgressContainer>
-        <ProgressText count={count}>{count} of 2</ProgressText>
         <Progress width={(count / 2) * 100 + "%"}></Progress>
       </ProgressContainer>
       {count === 0 && (
         <SelectContainer>
           <Select
-            question={"진행하려는 무역의 종류가 어떤 방식인가요?"}
+            question={"진행하려는 무역의 종류를 선택해주세요."}
             option1={"수출"}
             option2={"수입"}
           ></Select>
           <SelectText>장소를 선택해주세요</SelectText>
-          <CustomSelect value={selectedOption} onChange={handleSelectChange} options={options1} width={292+"px"}/>
+          <CustomSelect value={selectedOption} onChange={handleSelectChange} options={options1} width={328 + "px"} />
           <MarginBox></MarginBox>
           <Select
-            question={"세부 종류를 선택해주세요"}
+            question={"운임 방법을 선택해주세요"}
             option1={"해상"}
             option2={"항공"}
           ></Select>
-
-
-
           <NextButton
             onClick={() => {
               increaseCount();
               nextData();
             }}
           >
-            다음 단계
+            다음
           </NextButton>
         </SelectContainer>
       )}
-      {count === 1 && (
-        <JustSpan>
-          <GoodsInfoContainer>
-            <GoodsInfoHeader>물품 정보를 등록해주세요</GoodsInfoHeader>
-            <GoodsInfo>물품명</GoodsInfo>
-            <CustomSelect value={selectedOption} onChange={(e) =>{
-                setApiData2({ ...apiData2, item_name: selectedOption });
-                handleSelectChange(e);
-            }
-              } options={options2} width={310+"px"}/>
 
+<<<<<<< HEAD
             <GoodsInfo>HSCode</GoodsInfo>
             <GoodsInputData
               onChange={(e) =>
@@ -448,11 +370,70 @@ export const Input = () => {
             </HalfNextButton>
           </ButtonContainer>
         </JustSpan>
+=======
+      {count === 1 && (
+        <GoodsInfoContainer>
+          <GoodsInfoHeader>물품 정보를 등록해주세요</GoodsInfoHeader>
+          <GoodsInfo>물품명</GoodsInfo>
+          <CustomSelect value={selectedOption} onChange={(e) => {
+            setApiData2({ ...apiData2, item_name: selectedOption });
+            handleSelectChange(e);
+          }
+          } options={options2} width={328 + "px"} />
+
+          <GoodsInfo>HSCode</GoodsInfo>
+          <GoodsInputData
+            onChange={(e) =>
+              setApiData2({ ...apiData2, hs_code: e.target.value })
+            }
+          ></GoodsInputData>
+          <GoodsInfo>물품 총 가액(원)</GoodsInfo>
+          <GoodsInputData
+            onChange={(e) =>
+              setApiData2({ ...apiData2, total_price: e.target.value })
+            }
+          ></GoodsInputData>
+          <GoodsInfo>총 중량(kg)</GoodsInfo>
+          <GoodsInputData
+            onChange={(e) =>
+              setApiData2({ ...apiData2, total_weight: e.target.value })
+            }
+          ></GoodsInputData>
+          <GoodsInfo>물품 가로 길이(m)</GoodsInfo>
+          <GoodsInputData
+            onChange={(e) =>
+              setApiData2({ ...apiData2, width: e.target.value })
+            }
+          ></GoodsInputData>
+          <GoodsInfo>물품 세로 길이(m)</GoodsInfo>
+          <GoodsInputData
+            onChange={(e) =>
+              setApiData2({ ...apiData2, height: e.target.value })
+            }
+          ></GoodsInputData>
+          <GoodsInfo>물품 높이(m)</GoodsInfo>
+          <GoodsInputData
+            onChange={(e) =>
+              setApiData2({ ...apiData2, depth: e.target.value })
+            }
+          ></GoodsInputData>
+
+          <NextButton
+            onClick={() => {
+              increaseCount();
+              addDatasInputPage2();
+            }}
+          >
+          다음
+          </NextButton>
+        </GoodsInfoContainer>
+
+>>>>>>> 82ea3ff52f699f724f7c424139d2a4bfa6f90dcd
       )}
 
       {count === 2 && (
         <SuccessRoot>
-          <SuccessContainer>물품 정보 등록 완료!</SuccessContainer>
+          <SuccessContainer><Checked></Checked><SuccessText>물품 정보 등록 완료!</SuccessText></SuccessContainer>
           <SuccessButton onClick={handleDisplayClick}>업체별 견적 보러가기</SuccessButton>
         </SuccessRoot>
       )}

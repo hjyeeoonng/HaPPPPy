@@ -65,7 +65,7 @@ app.get("/displayData", async (req, res) => {
   try {
     let query;
     let result;
-    if(req.query.id) {
+    if (req.query.id) {
       query = `SELECT * FROM products where id=${id}`;
     }
     else {
@@ -75,7 +75,7 @@ app.get("/displayData", async (req, res) => {
     res.json(result.rows);
     // console.log(result.rows[0].total_weight*)
 
-    let estimate_price=0;
+    let estimate_price = 0;
     // 견적 계산식
     // 가로 : a m
     // 세로 : b m
@@ -85,41 +85,44 @@ app.get("/displayData", async (req, res) => {
     // 구간운임 : f ******추가할 예정(나라별 환율도)
     // 이면(axbxcxd)CBM / ekg인 화물인 경우
     // (해상은 1CBM = 1000kg, 항공은 1CBM = 167kg)
-    const target = result.rows[0]
-    //*개수도 추가해야 됨 (가로 * 세로* 높이* 개수)CBM
-    const CBM = target.width * target.height * target.depth
-    // console.log(CBM)
-    if(target.transport=="해상") {
-      const CBMUnit = 1000
-      if(target.total_weight < CBMUnit) {
-        //해상 e < 1000 : (axbxcxd)CBM x $f x 1,286.65달러 환율
-          estimate_price=CBM * 90 * 1,286.65
+    if (result.rows.length != 0) {
+      const target = result.rows[0]
+      //*개수도 추가해야 됨 (가로 * 세로* 높이* 개수)CBM
+      const CBM = target.width * target.height * target.depth
+      // console.log(CBM)
+      if (target.transport == "해상") {
+        const CBMUnit = 1000
+        if (target.total_weight < CBMUnit) {
+          //해상 e < 1000 : (axbxcxd)CBM x $f x 1,286.65달러 환율
+          estimate_price = CBM * 90 * 1, 286.65
+        }
+        else {
+          //해상 e >= 1000 : (e/1000)CBM x $f x 1,286.65달러 환율
+          estimate_price = target.total_weight / CBMUnit * 90 * 1, 286.65
+        }
       }
-      else {
-        //해상 e >= 1000 : (e/1000)CBM x $f x 1,286.65달러 환율
-        estimate_price = target.total_weight / CBMUnit * 90 * 1,286.65 
+      if (target.transport == "항공") {
+        const CBMUnit = 167
+        //항공 e < axbxcxdx167 : (axbxcxd)CBM x 167kg x \f
+        if (target.total_weight < CBM * CBMUnit) {
+          estimate_price = CBM * CBMUnit * 90 * 1, 286.65
+        }
+        //항공 e >= axbxcxdx167 : e x \f
+        else {
+          estimate_price = target.total_weight * 90 * 1, 286.65
+        }
       }
+
+      if (target.total_price > 200000) {
+        //물품 총 가액 g \, 관세율(물품명, HSCode)*****(추가 예정)
+        // (통관기준 금액 20만)
+        // g >20만 : 최종 금액 = 위 계산한 결과값 x 관세율
+        estimate_price = estimate_price * 0.8
+      }
+      estimate_price = Math.ceil(estimate_price);
+      console.log(estimate_price)
+
     }
-    if(target.transport=="항공") {
-      const CBMUnit = 167
-      //항공 e < axbxcxdx167 : (axbxcxd)CBM x 167kg x \f
-      if( target.total_weight < CBM*CBMUnit) {
-        estimate_price = CBM * CBMUnit * 90 * 1,286.65 
-      }
-      //항공 e >= axbxcxdx167 : e x \f
-      else {
-        estimate_price = target.total_weight * 90 * 1,286.65 
-      }
-    }
-    
-    if(target.total_price > 200000) {
-      //물품 총 가액 g \, 관세율(물품명, HSCode)*****(추가 예정)
-      // (통관기준 금액 20만)
-      // g >20만 : 최종 금액 = 위 계산한 결과값 x 관세율
-      estimate_price = estimate_price * 0.8
-    }
-    estimate_price = Math.ceil(estimate_price);
-    console.log(estimate_price)
 
   } catch (error) {
     console.log(error)
@@ -146,22 +149,22 @@ app.delete('/delete', async (req, res) => {
 });
 
 //company업체 정보 테이블
-app.get("/company",async (req, res)=>{
+app.get("/company", async (req, res) => {
   // res.json({ "message": `company테이블` })
   const client = await pool.connect()
   console.log(req.query)
   //첫번째 방법(for 문)
   if (req.query.id) {
-      const result = await client.query("SELECT * FROM company")
-      for (let i = 0; i < result.rows.length; i++) {
-          if (result.rows[i].name == req.query.name) {
-              res.json(result.rows[i])
-              break;
-          }
+    const result = await client.query("SELECT * FROM company")
+    for (let i = 0; i < result.rows.length; i++) {
+      if (result.rows[i].name == req.query.name) {
+        res.json(result.rows[i])
+        break;
       }
+    }
   } else {
-      const result = await client.query("SELECT * FROM company")
-      res.json(result.rows)
+    const result = await client.query("SELECT * FROM company")
+    res.json(result.rows)
   }
 });
 

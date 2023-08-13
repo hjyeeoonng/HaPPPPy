@@ -1,59 +1,48 @@
 import { useState } from "react";
 import styled from "styled-components";
-
-
-// 색상 변수 정의
-const progressbarBackgroundColor = "#595d62"
-const buttonBackgroundColor = "#dddfe7";
-const buttonHoverColor = "#ccc";
+import theme from "../value/color";
 
 
 const Root = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  width: 375px;
   margin-bottom: 40px;
+  font-family: AppleSDGothicNeoM00;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: -0.5px;
+`;
+
+
+const SelectBoxContainer = styled.div`
+  display: flex;
 `;
 
 //셀렉트 박스 질문
 const SelectText = styled.div`
-  width: 90%;
   margin-bottom: 30px;
-  font-family: Ubuntu;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 700;
-`;
-
-const SelectBoxContainer = styled.div`
-  display: flex;
-  padding: 10px 10px;
+  padding: 0 20px;
 `;
 
 const SelectBox = styled.button`
-  width: 146px;
-  height: 46px;
+  width: 156px;
+  height: 54px;
+  border-radius: 10px;
+  margin-left: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 10px;
-  background: ${(props) => (props.isClicked ? progressbarBackgroundColor : buttonBackgroundColor)};
-  color: ${(props) => (props.isClicked ? "#fff" : "#000")};
-  border: ${(props) => (props.isClicked ? "2px solid black" : "none")};
+  background: linear-gradient(0deg, ${theme.light_gray}, ${theme.light_gray}),
+  linear-gradient(0deg,  ${theme.back}, ${theme.back});
+
+  border: ${(props) => (props.isClicked ? `2px solid ${theme.main}` : `2px solid ${theme.light_gray}`)};
   text-align: center;
-  font-family: Ubuntu;
-  font-size: 18px;
-  font-weight: 700;
+
   cursor: pointer;
   transition: background 0.3s, color 0.3s, border 0.3s;
 
-  &:hover {
-    background: ${(props) => (props.isClicked ? buttonBackgroundColor : buttonHoverColor)};
-  }
   &:active {
-    border: 1px solid black;
+    border: 1px solid ${theme.main};
   }
 
 `;
@@ -81,13 +70,13 @@ export const Select = ({ question, option1, option2 }) => {
             handleClickButton1();
             e.target.innerText === "수출"
               ? localStorage.setItem(
-                  "shipmentType",
-                  JSON.stringify(e.target.innerText)
-                )
+                "shipmentType",
+                JSON.stringify(e.target.innerText)
+              )
               : localStorage.setItem(
-                  "transportType",
-                  JSON.stringify(e.target.innerText)
-                );
+                "transportType",
+                JSON.stringify(e.target.innerText)
+              );
           }}
           isClicked={isClicked1}
         >
@@ -99,18 +88,19 @@ export const Select = ({ question, option1, option2 }) => {
             handleClickButton2();
             e.target.innerText === "수입"
               ? localStorage.setItem(
-                  "shipmentType",
-                  JSON.stringify(e.target.innerText)
-                )
+                "shipmentType",
+                JSON.stringify(e.target.innerText)
+              )
               : localStorage.setItem(
-                  "transportType",
-                  JSON.stringify(e.target.innerText)
-                );
+                "transportType",
+                JSON.stringify(e.target.innerText)
+              );
           }}
           isClicked={isClicked2}
         >
           {option2}
         </SelectBox>
+
       </SelectBoxContainer>
     </Root>
   );

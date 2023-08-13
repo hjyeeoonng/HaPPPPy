@@ -3,6 +3,7 @@ import styled from "styled-components";
 const Root = styled.div`
   width: 100%;
 `;
+
 const GoodsInfo = styled.div`
   margin: 9px 0px 5px 0px;
   font-family: Ubuntu;
