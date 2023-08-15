@@ -35,14 +35,14 @@ let transportType = "";
 
 app.post("/inputPage1", (req, res) => {
   shipmentType = req.body.shipmentType;
-  countrySelect = req.body.countrySelect;
+  countrySelect = req.body.country;
   transportType = req.body.transportType;
   res.send("success");
 });
 
 // 물품 정보를 입력받는 두 번째 페이지
 app.post("/inputPage2", async (req, res) => {
-  console.log(req.body)
+  // console.log(req.body)
   const { item_name, hs_code, total_price, total_weight, width, height, depth, item_number } = req.body;
 
   const client = await pool.connect();
@@ -64,29 +64,12 @@ app.get("/displayData", async (req, res) => {
   const client = await pool.connect();
   
   try {
-    // const result = await client.query(`SELECT * FROM products`);
+    const result = await client.query(`SELECT * FROM products`);
+    const target = result.rows[result.rows.length-1];
+    // res.json(target);
     
-    // const alldata = [];
-    // alldata.push(result.rows[result.rows.length-1]);
-    // res.json(alldata);
-
-
-    let query;
-    let result;
-    if (req.query.id) {
-      query = `SELECT * FROM products where id=${id}`;
-    }
-    else {
-      query = `SELECT * FROM products`;
-    }
-    result = await client.query(query);
-
-    console.log(result.rows)
-    res.json(result.rows);
-    // console.log(result.rows[0].total_weight*)
-
-    
-    let estimate_price = 0;
+    console.log(target)
+    let estimate_price = 100;
     // 견적 계산식
     // 가로 : a m
     // 세로 : b m
@@ -96,43 +79,62 @@ app.get("/displayData", async (req, res) => {
     // 구간운임 : f ******추가할 예정(나라별 환율도)
     // 이면(axbxcxd)CBM / ekg인 화물인 경우
     // (해상은 1CBM = 1000kg, 항공은 1CBM = 167kg)
-    if (result.rows.length != 0) {
-      const target = result.rows[0]
 
-      // // 로그 출력: target 객체 확인
-      // console.log("Target:", target);
+    //나라별 ,운송방법별 f값, 환율
+    const f={
+      "New York" : {
+        "해상" : 90,
+        "항공" : 2250,
+        countryrate : 1286.65
+      },
+      "Ottawa" : {
+        "해상" : 100,
+        "항공" : 2000,
+        countryrate : 980.19
+      },
+      "Berlin" : {
+        "해상" : 120,
+        "항공" : 3000,
+        countryrate : 1444.22
+      },
+      "Milano" : {
+        "해상" : 110,
+        "항공" : 2890,
+        countryrate : 1444.22
+      },
+      "Tokyo" : {
+        "해상" : 40,
+        "항공" : 1250,
+        countryrate : 9.21
+      },
+    }
 
-      //*개수도 추가해야 됨 (가로 * 세로* 높이* 개수)CBM
-      const CBM = target.width * target.height * target.depth
-
-      // console.log("target.width")
-      // console.log(target.width)
-      // console.log("target.height")
-      // console.log(target.height)
-      // console.log("CBM")
-      // console.log(CBM)
-
-      console.log(target.transport)
-      if (target.transport == "해상") {
+      // (가로 * 세로* 높이* 개수)CBM
+      const CBM = target.width * target.height * target.depth * target.item_number
+      // console.log("target.transport")
+      // console.log(transportType)
+      // console.log(countrySelect)
+      if (transportType == "해상") {
         const CBMUnit = 1000
         if (target.total_weight < CBMUnit) {
           //해상 e < 1000 : (axbxcxd)CBM x $f x 1,286.65달러 환율
-          estimate_price = CBM * 90 * 1, 286.65
+          estimate_price = CBM * f[countrySelect][transportType] * f[countrySelect].countryrate
         }
         else {
           //해상 e >= 1000 : (e/1000)CBM x $f x 1,286.65달러 환율
-          estimate_price = target.total_weight / CBMUnit * 90 * 1, 286.65
+          estimate_price = target.total_weight / CBMUnit * f[countrySelect][transportType] * f[countrySelect].countryrate
         }
       }
-      if (target.transport == "항공") {
+
+      else if (transportType == "항공") {
         const CBMUnit = 167
         //항공 e < axbxcxdx167 : (axbxcxd)CBM x 167kg x \f
         if (target.total_weight < CBM * CBMUnit) {
-          estimate_price = CBM * CBMUnit * 90 * 1, 286.65
+          estimate_price = CBM * CBMUnit * f[countrySelect][transportType] * f[countrySelect].countryrate
         }
         //항공 e >= axbxcxdx167 : e x \f
         else {
-          estimate_price = target.total_weight * 90 * 1, 286.65
+          estimate_price = target.total_weight * f[countrySelect][transportType] * f[countrySelect].countryrate
         }
       }
 
@@ -142,15 +144,15 @@ app.get("/displayData", async (req, res) => {
         // g >20만 : 최종 금액 = 위 계산한 결과값 x 관세율
         estimate_price = estimate_price * 0.8
       }
-      estimate_price = Math.ceil(estimate_price);
+      
       console.log("estimate_price")
       console.log(estimate_price)
 
-    }
-    else{
-      console.log("result.rows.length = 0")
-    }
-  } 
+      res.json({
+        ...target,
+        'estimatePrice': estimate_price
+      });
+  }
   catch (error) {
     console.error("Error while fetching product data:", error);
     res.status(500).send("Error while fetching product data.");
@@ -158,6 +160,8 @@ app.get("/displayData", async (req, res) => {
     client.release();
   }
 });
+  
+
 
 // 입력 정보 삭제(뒤로가기/처음으로 돌아가기 실행 시 필요)
 app.delete('/delete', async (req, res) => {
