@@ -42,6 +42,7 @@ app.post("/inputPage1", (req, res) => {
 
 // 물품 정보를 입력받는 두 번째 페이지
 app.post("/inputPage2", async (req, res) => {
+  console.log(req.body)
   const { item_name, hs_code, total_price, total_weight, width, height, depth, item_number } = req.body;
 
   const client = await pool.connect();
@@ -61,8 +62,15 @@ app.post("/inputPage2", async (req, res) => {
 // 세 번째 페이지에서 입력한 값을 보여주는 화면
 app.get("/displayData", async (req, res) => {
   const client = await pool.connect();
-  const id = req.query.id
+  
   try {
+    // const result = await client.query(`SELECT * FROM products`);
+    
+    // const alldata = [];
+    // alldata.push(result.rows[result.rows.length-1]);
+    // res.json(alldata);
+
+
     let query;
     let result;
     if (req.query.id) {
@@ -72,9 +80,12 @@ app.get("/displayData", async (req, res) => {
       query = `SELECT * FROM products`;
     }
     result = await client.query(query);
+
+    console.log(result.rows)
     res.json(result.rows);
     // console.log(result.rows[0].total_weight*)
 
+    
     let estimate_price = 0;
     // 견적 계산식
     // 가로 : a m
@@ -87,9 +98,21 @@ app.get("/displayData", async (req, res) => {
     // (해상은 1CBM = 1000kg, 항공은 1CBM = 167kg)
     if (result.rows.length != 0) {
       const target = result.rows[0]
+
+      // // 로그 출력: target 객체 확인
+      // console.log("Target:", target);
+
       //*개수도 추가해야 됨 (가로 * 세로* 높이* 개수)CBM
       const CBM = target.width * target.height * target.depth
+
+      // console.log("target.width")
+      // console.log(target.width)
+      // console.log("target.height")
+      // console.log(target.height)
+      // console.log("CBM")
       // console.log(CBM)
+
+      console.log(target.transport)
       if (target.transport == "해상") {
         const CBMUnit = 1000
         if (target.total_weight < CBMUnit) {
@@ -120,18 +143,28 @@ app.get("/displayData", async (req, res) => {
         estimate_price = estimate_price * 0.8
       }
       estimate_price = Math.ceil(estimate_price);
+      console.log("estimate_price")
       console.log(estimate_price)
 
     }
-
-  } catch (error) {
-    console.log(error)
+    else{
+      console.log("result.rows.length = 0")
+    }
+  } 
+  
+  
+  
+  
+  
+  
+  
+  
+  catch (error) {
     console.error("Error while fetching product data:", error);
     res.status(500).send("Error while fetching product data.");
   } finally {
     client.release();
   }
-
 });
 
 // 입력 정보 삭제(뒤로가기/처음으로 돌아가기 실행 시 필요)
@@ -152,7 +185,7 @@ app.delete('/delete', async (req, res) => {
 app.get("/company", async (req, res) => {
   // res.json({ "message": `company테이블` })
   const client = await pool.connect()
-  console.log(req.query)
+  // console.log(req.query)
   //첫번째 방법(for 문)
   if (req.query.id) {
     const result = await client.query("SELECT * FROM company")
