@@ -151,14 +151,6 @@ app.get("/displayData", async (req, res) => {
       console.log("result.rows.length = 0")
     }
   } 
-  
-  
-  
-  
-  
-  
-  
-  
   catch (error) {
     console.error("Error while fetching product data:", error);
     res.status(500).send("Error while fetching product data.");
