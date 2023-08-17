@@ -221,9 +221,6 @@ const addDatasInputPage2 = async () => {
 try {
     await axios.post("http://localhost:5000/inputPage1", apiData1);
     await axios.post("http://localhost:5000/inputPage2", apiData2);
-    setpassData2({
-    name: apiData2.item_name
-    })
     setApiData1({
     shipmentType: "",
     country: "",
@@ -259,6 +256,7 @@ const options1 = [
 ];
 
 const options2 = [
+{ value: '물품명을 선택해주세요', label: '물품명을 선택해주세요' },
 { value: '냉동/냉장', label: '냉동/냉장' },
 { value: '화장품/미용', label: '화장품/미용' },
 { value: '패션의류', label: '패션의류' },
@@ -316,7 +314,7 @@ return (
         <CustomSelect value={selectedOption2} 
         onChange={(e) => {
             setSelectedOption2(e.target.value)
-            // setApiData2({ ...apiData2, item_name: selectedOption2 });
+            setApiData2({ ...apiData2, item_name: e.target.value });
         }
         } options={options2} width={328 + "px"} />
 
