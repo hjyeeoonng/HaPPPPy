@@ -79,7 +79,7 @@ app.get("/displayData", async (req, res) => {
     // 구간운임 : f ******추가할 예정(나라별 환율도)
     // 이면(axbxcxd)CBM / ekg인 화물인 경우
     // (해상은 1CBM = 1000kg, 항공은 1CBM = 167kg)
-
+  
     //나라별 ,운송방법별 f값, 환율
     const f={
       "New York" : {
@@ -88,17 +88,17 @@ app.get("/displayData", async (req, res) => {
         countryrate : 1286.65
       },
       "Ottawa" : {
-        "해상" : 100,
+        "해상" : 99,
         "항공" : 2000,
         countryrate : 980.19
       },
       "Berlin" : {
-        "해상" : 120,
+        "해상" : 110,
         "항공" : 3000,
         countryrate : 1444.22
       },
       "Milano" : {
-        "해상" : 110,
+        "해상" : 108,
         "항공" : 2890,
         countryrate : 1444.22
       },
@@ -137,6 +137,56 @@ app.get("/displayData", async (req, res) => {
           estimate_price = target.total_weight * f[countrySelect][transportType] * f[countrySelect].countryrate
         }
       }
+      //물품면 별 과세율
+      let tariff=1
+      if(target.item_name=="냉동/냉장"){
+        tariff=1.08
+        estimate_price=estimate_price*tariff
+      }
+      if(target.item_name=="화장품/미용"){
+        tariff=1.06
+        estimate_price=estimate_price*tariff
+      }
+      if(target.item_name=="패션의류"){
+        tariff=1.0
+        estimate_price=estimate_price*tariff
+      }
+      if(target.item_name=="패션잡화"){
+        tariff=1.06
+        estimate_price=estimate_price*tariff
+      }
+      if(target.item_name=="디지털/가전"){
+        tariff=1.08
+        estimate_price=estimate_price*tariff
+      }
+      if(target.item_name=="가구/인테리어"){
+        tariff=1.08
+        estimate_price=estimate_price*tariff
+      }
+      if(target.item_name=="출산/육아"){
+        tariff=1.04
+        estimate_price=estimate_price*tariff
+      }
+      if(target.item_name=="생활/건강"){
+        tariff=1.04
+        estimate_price=estimate_price*tariff
+      }
+      if(target.item_name=="도서"){
+        tariff=1.02
+        estimate_price=estimate_price*tariff
+      }
+      if(target.item_name=="애완용품"){
+        tariff=1.08
+        estimate_price=estimate_price*tariff
+      }
+      if(target.item_name=="상온식품"){
+        tariff=1.08
+        estimate_price=estimate_price*tariff
+      }
+      if(target.item_name=="기타"){
+        tariff=1.08
+        estimate_price=estimate_price*tariff
+      }
 
       if (target.total_price > 200000) {
         //물품 총 가액 g \, 관세율(물품명, HSCode)*****(추가 예정)
@@ -144,7 +194,7 @@ app.get("/displayData", async (req, res) => {
         // g >20만 : 최종 금액 = 위 계산한 결과값 x 관세율
         estimate_price = estimate_price * 0.8
       }
-      
+      estimate_price = Math.ceil(estimate_price)
       console.log("estimate_price")
       console.log(estimate_price)
 
