@@ -102,6 +102,7 @@ const DisplayChangeButton = styled.div`
   color: white;
   font-size: 18px;
   font-weight: 400;
+  cursor: pointer;
   &:hover {
   background:${theme.sub};
   }
@@ -155,7 +156,7 @@ const DisplayListButton = styled.div`
   background: var(--sub, #6C89FF);
   color: var(--color-text-dark, #FFF);
   text-align: center;
-
+  cursor: pointer;
   /* Mobile/Text/Small/Bold */
   font-family: Montserrat;
   font-size: 12px;

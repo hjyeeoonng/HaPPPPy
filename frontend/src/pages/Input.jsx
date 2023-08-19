@@ -101,6 +101,7 @@ background:${theme.light_gray};
 color: ${theme.medium_gray};
 font-size: 18px;
 font-weight: 700;
+cursor: pointer;
 &:hover {
 background: ${theme.main};
 color: white;
@@ -151,6 +152,7 @@ background:${theme.main};
 color: white;
 font-size: 18px;
 font-weight: 400;
+cursor: pointer;
 &:hover {
 background:${theme.sub};
 }
