@@ -2,6 +2,8 @@ import styled from "styled-components";
 import Header from "../components/Header";
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
 
 const Data={comp:"B업체",name:"마샬 스피커",deadline:"2023-07-27",price1:"230000원",price2:"220000원", time:"3일"};
 
@@ -170,24 +172,37 @@ const DisplayDetailTextWrap = styled.div`
 `
 
 export const DisplayDetail = () => {
+    const location = useLocation();
+    const companyName = location.state.companyName;
+    const compprice = location.state.compprice;
+    const closingDate = location.state.closingDate;
+    const itemname = location.state.itemname;
     const [count, setCount] = useState(0);
-  
+
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+      navigate("/displayComp");
+    };
+    const handleClick2 = () => {
+      navigate("/display");
+    };
+
     return (
       <Root>
         <Header></Header>
-        <DisplayDetailTextMain>{Data.comp} 견적 세부정보</DisplayDetailTextMain>
+        <DisplayDetailTextMain>{companyName} 견적 세부정보</DisplayDetailTextMain>
         <DisplayDetailListBox>
           <DisplayDetailListImg></DisplayDetailListImg>
           <DisplayDetailTextBox>
-            <DisplayDetailTextMain>{Data.comp}</DisplayDetailTextMain>
+            <DisplayDetailTextMain>{companyName}</DisplayDetailTextMain>
           </DisplayDetailTextBox>
           <DisplayDetailListButton>리뷰</DisplayDetailListButton>
         </DisplayDetailListBox>
         <DisplayDetailTextBox2>
-          <DisplayDetailText>물품명: {Data.name}</DisplayDetailText>
-          <DisplayDetailText>견적 요청 마감일: {Data.deadline}</DisplayDetailText>
-          <DisplayDetailText>예상 해상 운임: {Data.price1}</DisplayDetailText>
-          <DisplayDetailText>예상 내륙 운임: {Data.price2}</DisplayDetailText>
+          <DisplayDetailText>물품명: {itemname}</DisplayDetailText>
+          <DisplayDetailText>견적 요청 마감일: {closingDate}</DisplayDetailText>
+          <DisplayDetailText>예상 운임: {compprice}</DisplayDetailText>
           <DisplayDetailText>소요 시간: {Data.time}</DisplayDetailText>
         </DisplayDetailTextBox2>
         <DisplayDetailTextWrap>
@@ -195,8 +210,8 @@ export const DisplayDetail = () => {
           <DisplayDetailTextMain2>견적 요청 마감일 전까지 유효합니다</DisplayDetailTextMain2>
         </DisplayDetailTextWrap>
         <DisplayDetailButtonBox>
-          <DisplayDetailListButton2>뒤로</DisplayDetailListButton2>
-          <DisplayDetailListButton3>세부상담신청</DisplayDetailListButton3>
+          <DisplayDetailListButton2 onClick={handleClick2}>뒤로</DisplayDetailListButton2>
+          <DisplayDetailListButton3 onClick={handleClick}>세부상담신청</DisplayDetailListButton3>
         </DisplayDetailButtonBox>
       </Root>
     );

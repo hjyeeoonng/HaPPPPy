@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router";
 import axios from "axios";
 import theme from "../value/color";
+import { format, addWeeks, addMonths } from 'date-fns';
 
 const Root = styled.div`
 width: 375px;
@@ -175,22 +176,24 @@ const DisplayListWrap = styled.div`
   border: 1px solid var(--unnamed, #C4C4C4);
   background: var(--unnamed, #FFF);
 `
+function getRandomInRange(min, max) {
+  return Math.random() * (max - min) + min;
+}
 
 export const Display = () => {
     const passData2 = useLocation();
     console.log(passData2);
 
     const [data, setData] = useState([]);
+    const [displayData, setDisplayData] = useState([]);
+    const [closingDate, setClosingDate] = useState(null);
 
     useEffect(() => {
       const fetchData = async () => {
         try {
           const response = await axios.get('http://localhost:5000/company');
           const fetchedData = response.data.map(item => {
-            const minPrice = 200;
-            const maxPrice = 300;
-            const randomPrice = String((Math.floor(Math.random() * (maxPrice - minPrice + 1)) + minPrice)*1000)+"원";
-            return { ...item, price: randomPrice };
+            return { ...item};
           });
           setData(fetchedData);
         } catch (error) {
@@ -199,49 +202,88 @@ export const Display = () => {
       };
 
       const fetchDisplayData = async ()=>{
-        const response = await axios.get('http://localhost:5000/displayData')
-        console.log(response.data) 
-      
+        try {
+          const response = await axios.get('http://localhost:5000/displayData')
+          console.log(response.data)
+          setDisplayData(response.data)
+        } catch (error) {
+          console.log('Error fetching data:', error);
+        }
       }
 
-      fetchData();
       fetchDisplayData();
+      fetchData();
+
+      const generateRandomDate = () => {
+        const currentDate = new Date();
+        const oneWeekLater = addWeeks(currentDate, 1);
+        const oneMonthAgo = addMonths(currentDate, 1);
+  
+        const randomTime = oneWeekLater.getTime() + Math.random() * (oneMonthAgo.getTime() - oneWeekLater.getTime());
+        const randomDate = new Date(randomTime);
+  
+        return randomDate;
+      };
+
+      const randomDate = generateRandomDate();
+      const formattedDate = format(randomDate, 'yyyy-MM-dd'); 
+
+      setClosingDate(formattedDate);
     }, []);
 
     const navigate = useNavigate();
 
-    const handleClick = () => {
-      navigate("/displayDetail");
+    const handleClick = (companyName,compprice) => {
+      const itemname = displayData.item_name;
+      navigate("/displayDetail", { state: { companyName, compprice, closingDate, itemname} });
+    };
+
+    const handleChanClick = () => {
+      navigate("/");
+    };
+    
+    const getCompanyNameByIndex = (index) => {
+      const companyNames = ['A업체', 'B업체', 'C업체', 'D업체', 'E업체', 'F업체', 'G업체', 'H업체', 'I업체', 'J업체']; // 업체 이름 배열
+      return companyNames[index];
     };
   
     return (
       <Root>
         <Header></Header>
         <DisplayTextBox>
-          <DisplayText>물품명 마샬 스피커<br/></DisplayText>
-          <DisplayText>견적요청마감일 2023-07-27<br/></DisplayText>
-          <DisplayText>견적평균가 200000원<br/></DisplayText>
+          <DisplayText>물품명 {displayData.item_name}<br/></DisplayText>
+          <DisplayText>견적요청마감일 {closingDate}<br/></DisplayText>
+          <DisplayText>견적평균가 {displayData.estimatePrice}<br/></DisplayText>
         </DisplayTextBox>
         <DisplayTextMain>견적서</DisplayTextMain>
         <DisplayListWrap>
         <DisplayLine></DisplayLine>
         {
-          data.map((item, index)=>(
-            <div style={{width: '100%'}}>
-            <DisplayListBox>
-              <DisplayListImg></DisplayListImg>
-              <DisplayTextBox2>
-                <DisplayText3>{item.name}</DisplayText3>
-                <DisplayText2>{item.price}</DisplayText2>
-              </DisplayTextBox2>
-              <DisplayListButton onClick={handleClick}>세부 정보</DisplayListButton>
-            </DisplayListBox>
-            <DisplayLine></DisplayLine>
-            </div>
-          ))
+          data.map((item, index) => {
+            const randomValue = (displayData.estimatePrice / 100 * getRandomInRange(90, 110)).toFixed(1);
+            
+            // DisplayText2에 표기된 값을 저장
+            const text2Value = randomValue;
+
+            return (
+              <div style={{ width: '100%' }}>
+                <DisplayListBox>
+                  <DisplayListImg></DisplayListImg>
+                  <DisplayTextBox2>
+                    <DisplayText3>{item.name}</DisplayText3>
+                    <DisplayText2>{text2Value}</DisplayText2>
+                  </DisplayTextBox2>
+                  <DisplayListButton onClick={() => handleClick(getCompanyNameByIndex(index), text2Value)}>
+                    세부 정보
+                  </DisplayListButton>
+                </DisplayListBox>
+                <DisplayLine></DisplayLine>
+              </div>
+            );
+          })
         }
         </DisplayListWrap>
-        <DisplayChangeButton>물품 변경하기</DisplayChangeButton>
+        <DisplayChangeButton onClick={handleChanClick}>물품 변경하기</DisplayChangeButton>
       </Root>
     );
   };

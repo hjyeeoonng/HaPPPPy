@@ -4,6 +4,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import Display from "./pages/Display.jsx";
 import DisplayDetail from "./pages/DisplayDetail.jsx";
+import DisplayComplete from "./pages/DisplayComplete.jsx";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
   {
     path: 'displayDetail',
     element: <DisplayDetail />
+  },
+  {
+    path: 'displayComp',
+    element: <DisplayComplete />
   }
 ]);
 

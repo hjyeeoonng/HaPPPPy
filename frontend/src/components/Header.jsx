@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { ReactComponent as Profile } from "../img/profile.svg";
+import logoImage from "../img/logo1.JPG";
 
 const Root = styled.div`
   width: 100%;
@@ -14,7 +15,9 @@ const HeaderContainer = styled.div`
   position: relative;
 `;
 
-const StyledHeader = styled.div`
+const StyledHeader = styled.img`
+  width: auto;
+  height: 72px;
   font-size: 36px;
   font-weight: bold;
   font-style: italic;
@@ -32,7 +35,7 @@ export const Header = () => {
   return (
     <Root>
       <HeaderContainer>
-        <StyledHeader>LOGO</StyledHeader>
+        <StyledHeader src={logoImage} alt="Logo" />
         <ProfileIcon>
         <Profile></Profile>
         </ProfileIcon>
