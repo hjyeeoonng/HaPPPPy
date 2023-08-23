@@ -1,7 +1,5 @@
 import styled from "styled-components";
 import Header from "../components/Header";
-import { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
 
@@ -177,12 +175,11 @@ export const DisplayDetail = () => {
     const compprice = location.state.compprice;
     const closingDate = location.state.closingDate;
     const itemname = location.state.itemname;
-    const [count, setCount] = useState(0);
 
     const navigate = useNavigate();
 
     const handleClick = () => {
-      navigate("/displayComp");
+      navigate("/displayComp",{state: {companyName}});
     };
     const handleClick2 = () => {
       navigate("/display");
@@ -202,7 +199,7 @@ export const DisplayDetail = () => {
         <DisplayDetailTextBox2>
           <DisplayDetailText>물품명: {itemname}</DisplayDetailText>
           <DisplayDetailText>견적 요청 마감일: {closingDate}</DisplayDetailText>
-          <DisplayDetailText>예상 운임: {compprice}</DisplayDetailText>
+          <DisplayDetailText>예상 운임: {compprice} 원</DisplayDetailText>
           <DisplayDetailText>소요 시간: {Data.time}</DisplayDetailText>
         </DisplayDetailTextBox2>
         <DisplayDetailTextWrap>
@@ -211,7 +208,7 @@ export const DisplayDetail = () => {
         </DisplayDetailTextWrap>
         <DisplayDetailButtonBox>
           <DisplayDetailListButton2 onClick={handleClick2}>뒤로</DisplayDetailListButton2>
-          <DisplayDetailListButton3 onClick={handleClick}>세부상담신청</DisplayDetailListButton3>
+          <DisplayDetailListButton3 onClick={handleClick}> 세부상담신청</DisplayDetailListButton3>
         </DisplayDetailButtonBox>
       </Root>
     );
