@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import Input from "./pages/Input";
 import axios from "axios";
-
 import { createGlobalStyle } from 'styled-components';
 
 // 전역 스타일 생성
@@ -49,9 +48,9 @@ function App() {
   });
 
   return (
-    <Root>
-      <Input></Input>
-    </Root>
+      <Root>
+        <Input></Input>
+      </Root>
   );
 }
 
