@@ -176,8 +176,7 @@ const [count, setCount] = useState(0);
 const navigate = useNavigate();
 
 const handleDisplayClick = () => {
-//현정 수정중 데이터 전달
-navigate("/display", passData2);
+    navigate("/display");
 };
 
 const increaseCount = () => {
@@ -204,10 +203,6 @@ height: "",
 depth: "",
 });
 
-//현정수정중 데이터 전달
-const [passData2, setpassData2] = useState({
-name: ""
-});
 
 const nextData = (item) => {
 setApiData1({

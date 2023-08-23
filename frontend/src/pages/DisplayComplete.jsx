@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import Header from "../components/Header";
 import { ReactComponent as Checked } from "../img/checked.svg";
 import theme from "../value/color";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
 
 const Root = styled.div`
 width: 375px;
@@ -67,7 +67,12 @@ transition: background 0.3s;
 export const DisplayComplete = () => {
 
     const navigate = useNavigate();
+    const displayCompLocation = useLocation();
+    let companyName = "";
 
+    if (displayCompLocation.state) {
+      companyName = displayCompLocation.state.companyName;
+    }
     const handleMainClick = () => {
       navigate("/");
     };
@@ -75,7 +80,7 @@ export const DisplayComplete = () => {
     return (
       <Root>
         <SuccessRoot>
-            <SuccessContainer><Checked></Checked><SuccessText>세부 상담 신청 완료!</SuccessText></SuccessContainer>
+            <SuccessContainer><Checked></Checked><SuccessText>{companyName+" "}세부 상담 신청 완료!</SuccessText></SuccessContainer>
             <SuccessButton onClick={handleMainClick}>처음 화면으로</SuccessButton>
         </SuccessRoot>
       </Root>

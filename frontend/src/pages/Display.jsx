@@ -3,7 +3,6 @@ import Header from "../components/Header";
 import { useState } from "react";
 import React, { useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-import { useLocation } from "react-router";
 import axios from "axios";
 import theme from "../value/color";
 import { format, addWeeks, addMonths } from 'date-fns';
@@ -176,14 +175,8 @@ const DisplayListWrap = styled.div`
   border: 1px solid var(--unnamed, #C4C4C4);
   background: var(--unnamed, #FFF);
 `
-function getRandomInRange(min, max) {
-  return Math.random() * (max - min) + min;
-}
 
 export const Display = () => {
-    const passData2 = useLocation();
-    console.log(passData2);
-
     const [data, setData] = useState([]);
     const [displayData, setDisplayData] = useState([]);
     const [closingDate, setClosingDate] = useState(null);
@@ -227,8 +220,9 @@ export const Display = () => {
 
       const randomDate = generateRandomDate();
       const formattedDate = format(randomDate, 'yyyy-MM-dd'); 
-
       setClosingDate(formattedDate);
+      
+      
     }, []);
 
     const navigate = useNavigate();
@@ -253,27 +247,22 @@ export const Display = () => {
         <DisplayTextBox>
           <DisplayText>물품명 {displayData.item_name}<br/></DisplayText>
           <DisplayText>견적요청마감일 {closingDate}<br/></DisplayText>
-          <DisplayText>견적평균가 {displayData.estimatePrice}<br/></DisplayText>
+          <DisplayText>견적평균가 {displayData.estimatePrice} 원<br/></DisplayText>
         </DisplayTextBox>
         <DisplayTextMain>견적서</DisplayTextMain>
         <DisplayListWrap>
         <DisplayLine></DisplayLine>
         {
           data.map((item, index) => {
-            const randomValue = (displayData.estimatePrice / 100 * getRandomInRange(90, 110)).toFixed(1);
-            
-            // DisplayText2에 표기된 값을 저장
-            const text2Value = randomValue;
-
             return (
               <div style={{ width: '100%' }}>
                 <DisplayListBox>
                   <DisplayListImg></DisplayListImg>
                   <DisplayTextBox2>
                     <DisplayText3>{item.name}</DisplayText3>
-                    <DisplayText2>{text2Value}</DisplayText2>
+                    <DisplayText2>{(item.rate*displayData.estimatePrice).toFixed(1)}원</DisplayText2>
                   </DisplayTextBox2>
-                  <DisplayListButton onClick={() => handleClick(getCompanyNameByIndex(index), text2Value)}>
+                  <DisplayListButton onClick={() => handleClick(getCompanyNameByIndex(index), (item.rate*displayData.estimatePrice).toFixed(1))}>
                     세부 정보
                   </DisplayListButton>
                 </DisplayListBox>
