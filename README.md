@@ -1,17 +1,7 @@
-<style>
-div#PageDiv {
-  display: flex;
-}
-img#PageImg {
-    width : 50%;
-}
-div#PageText {
-  padding : 10px;
-}
-</style>
-
 # 프로젝트에서 나의 역할
-    물류비 견적 플랫폼 Forwarding Now 개발 프로젝트에서 프론트엔드 개발을 담당하였습니다. Figma를 이용하여 초기 서비스의 UX/UI를 디자인하였습니다. 이후 기업의 지원을 받아 플랫폼의 디자인을 개선하였습니다. back-end의 Rest API와 연결하여 물품 견적 리스트를 제공하는 Display페이지를 개발하였습니다. 또, 물품의 견적을 자세히 확인할 수 있는 DisplayDetail 페이지를 개발하였으며, 세부 견적 상담 완료를 알리는 DisplayComplete 페이지를 개발하였습니다. 추가적으로 페이지 라우팅 작업및 로고 제작 작업을 진행하였습니다.
+
+> 물류비 견적 플랫폼 Forwarding Now 개발 프로젝트에서 프론트엔드 개발을 담당하였습니다. Figma를 이용하여 초기 서비스의 UX/UI를 디자인하였습니다. 이후 기업의 지원을 받아 플랫폼의 디자인을 개선하였습니다. back-end의 Rest API와 연결하여 물품 견적 리스트를 제공하는 Display페이지를 개발하였습니다. 또, 물품의 견적을 자세히 확인할 수 있는 DisplayDetail 페이지를 개발하였으며, 세부 견적 상담 완료를 알리는 DisplayComplete 페이지를 개발하였습니다. 추가적으로 페이지 라우팅 작업및 로고 제작 작업을 진행하였습니다.
+
 ### * 초기 Figma Design
 <img src="frontend\src\img\figma1.JPG">
 위 그림은 초기에 개발한 figma의 이미지이다. UI가 깔끔하긴 하지만, 무채색 계열의 색상을 이용하여 이미지가 단조로우며 눈에 잘 들어오지 않는다. 또한 요소별로 통일성이 부족하고, 정돈된 느낌을 주지 않는다. 디자인 멘토링을 통해 UI를 더욱 깔끔하고 보기 좋게 변경하였다. 
@@ -26,7 +16,7 @@ div#PageText {
 
 ### * Display Page
 <div id="PageDiv">
-<img src="frontend\src\img\display1.JPG" id="PageImg">
+<img src="frontend\src\img\display1.JPG" id="PageImg" width="200px">
 <div id="PageText">업체 가상 데이터를 통해 업체별 견적을 연동하여 입력한 값을 기반으로 견적 확인이 가능한 페이지이다. 개발한 RestAPI를 통해 이용자가 입력한 물품의 정보를 받아오고, 해당 물품에 대한 정보와 견적을 나타낸다. 상단의 회색 박스에는 입력한 물품의 물품명, 견적 요청의 마감일, 업체별 견적의 평균 가액을 표시하여 나타낸다. 업체별 견적의 평균가도 물품 정보와 마찬가지로 개발한 RestAPI를 통해 받아올 수 있다. 스크롤하여 각 업체의 견적 가격을 확인할 수 있고, 세부정보 버튼을 통해 업체별 견적을 세부적으로 확인할 수 있는 페이지로 이동할 수 있도록 하였다. 하단의 물품 변경하기를 누르면 다시 물품 정보 입력페이지의 첫 화면으로 이동하여 견적을 확인하고 싶은 물품의 정보를 변경하여 변경된 물품에 대한 정보를 받아볼 수 있도록 개발하였다.
 </div>
 </div>
@@ -35,7 +25,7 @@ div#PageText {
 
 ### * DisplayDetail Page
 <div id="PageDiv">
-<img src="frontend\src\img\display2.JPG" id="PageImg">
+<img src="frontend\src\img\display2.JPG" id="PageImg" width="200px">
 <div id="PageText"> 이전 견적 확인 페이지에서 세부정보 버튼을 누르면 이동할 수 있는 페이지이다. 선택한 업체에서 제공하는 견적의 세부정보를 회색 박스에 나타내었다. 회색 박스에는 이용자가 입력한 물품명과 견적 요청 마감일, 업체에서 제공하는 예상 운임과 소요 시간을 나타낼 수 있도록 하였다. 해당 정보도 개발한 RestAPI를 통해 받아볼 수 있도록 개발하였다. 뒤로 버튼을 이용해 이전의 견적 확인 페이지로 이동할 수 있고, 견적이 마음에 든다면 하단 우측의 세부상담 신청 버튼을 이용하여 견적 상담을 확정 지을 수 있다. 세부상담 신청 버튼을 누르면 세부상담 신청 완료 페이지로 이동한다.
 </div>
 </div>
@@ -44,7 +34,7 @@ div#PageText {
 
 ### * DisplayComplete Page
 <div id="PageDiv">
-<img src="frontend\src\img\display3.JPG" id="PageImg">
+<img src="frontend\src\img\display3.JPG" id="PageImg" width="200px">
 <div id="PageText"> DisplayComplete 페이지는 세부상담 신청 완료 페이지를 통해 이용자에게 세부상담 신청이 정상적으로 이루어졌음을 알려주는 페이지이다. 이용자는 하단의 처음 화면으로 페이지를 통해 처음의 물품 입력 페이지로 돌아가 다음 물품의 상세 정보를 입력하여 다시 견적을 받아볼 수 있다.
 </div>
 </div>
@@ -52,7 +42,7 @@ div#PageText {
 <br>
 
 ### * 개발한 로고
-<img src="frontend\src\img\logo1.JPG" id="PageImg">
+<img src="frontend\src\img\logo1.JPG" id="PageImg" width="200px">
 
 <br>
 
